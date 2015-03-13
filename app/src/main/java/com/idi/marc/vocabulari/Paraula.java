@@ -5,11 +5,14 @@ package com.idi.marc.vocabulari;
  */
 public class Paraula {
 
-    private static Integer id;
+    private Integer id;
     private String valor;
+    private Idioma idioma;
 
-    public Paraula(String valor){
+    public Paraula(Integer id, String valor,Idioma idioma){
+        setId(id);
         setValor(valor);
+        setIdioma(idioma);
     }
 
     /**
@@ -30,6 +33,10 @@ public class Paraula {
 
     public void setValor(String valor){
         this.valor=valor;
+    }
+
+    public void setIdioma(Idioma idioma){
+        this.idioma=idioma;
     }
 
 }
