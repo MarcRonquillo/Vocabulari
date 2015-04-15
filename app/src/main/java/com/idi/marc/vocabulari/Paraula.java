@@ -5,13 +5,12 @@ package com.idi.marc.vocabulari;
  */
 public class Paraula {
 
-    private Integer id;
-    private String valor;
+    private String id;
     private Idioma idioma;
 
-    public Paraula(Integer id, String valor,Idioma idioma){
-        setId(id);
-        setValor(valor);
+    public Paraula(String valor,Idioma idioma){
+
+        setId(valor);
         setIdioma(idioma);
     }
 
@@ -19,24 +18,22 @@ public class Paraula {
      * Getters i setters
      * @return
      */
-    public Integer getId(){
+
+    public String getId(){
         return this.id;
     }
 
-    public String getValor(){
-        return this.valor;
-    }
-
-    public void setId(Integer id){
-        this.id=id;
-    }
-
-    public void setValor(String valor){
-        this.valor=valor;
+    public void setId(String valor){
+        this.id=valor;
     }
 
     public void setIdioma(Idioma idioma){
         this.idioma=idioma;
     }
+
+    public Idioma getIdioma(){
+        return idioma;
+    }
+
 
 }

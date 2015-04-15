@@ -1,45 +1,84 @@
 package com.idi.marc.vocabulari;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 /**
  * Created by Marc on 12/03/2015.
  */
 public class Idioma {
 
-    private Integer id;
-    private String valor;
-    private Integer idParaules=0;
-    private HashMap<Integer,Paraula> llistaParaules=new HashMap<Integer,Paraula>();
+    private String id;
+    // private Integer idParaules=0;
+    private HashMap<String,Paraula> llistaParaules;
+    // private ArrayList<String> arrayParaules;
 
-    public Idioma(Integer id, String valor){
-        setValor(valor);
+    public Idioma(String id){
         setId(id);
+        llistaParaules=new HashMap<String,Paraula>();
     }
 
-    public Integer getId(){
+    public String getId(){
         return this.id;
     }
 
-    public String getValor(){
-        return this.valor;
-    }
-
-    public void setId(Integer id){
+    public void setId(String id){
         this.id=id;
     }
 
-    public void setValor(String valor){
-        this.valor=valor;
+    public void afegirParaula(String paraula) throws Exception{
+
+        Iterator<Entry<String,Paraula>> it = llistaParaules.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String,Paraula> pair = (Entry<String,Paraula>)it.next();
+            if(pair.getKey().equals(paraula)){
+                throw new Exception("La paraula ja existeix");
+            }
+        }
+
+        Paraula paraulaAAfegir=new Paraula(paraula,this);
+        llistaParaules.put(paraulaAAfegir.getId(),paraulaAAfegir);
+        //idParaules++;
     }
 
-    public void afegirParaula(String paraula){
-
-       Paraula paraulaAAfegir=new Paraula(idParaules,paraula,this);
-       llistaParaules.put(paraulaAAfegir.getId(),paraulaAAfegir);
-       idParaules++;
-    }
-
-    public void eliminarParaula(Integer id){
+    public void eliminarParaula(String id){
         llistaParaules.remove(id);
+    }
+
+    public Paraula getParaula(String id){
+        return llistaParaules.get(id);
+    }
+
+    public ArrayList<String> getLlistaParaules(){
+
+        ArrayList<String> dicc=new ArrayList<String>();
+
+        Iterator<Entry<String,Paraula>> it = llistaParaules.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String,Paraula> pair = (Entry<String,Paraula>)it.next();
+            dicc.add(pair.getKey());
+        }
+        return dicc;
+    }
+
+    public ArrayList<Paraula> getLlistaParaulesObj(){
+
+        ArrayList<Paraula> dicc=new ArrayList<Paraula>();
+
+        Iterator<Entry<String,Paraula>> it = llistaParaules.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String,Paraula> pair = (Entry<String,Paraula>)it.next();
+            dicc.add(pair.getValue());
+        }
+        return dicc;
+    }
+
+
+
+
+    @Override
+    public String toString() {
+        return "Idioma [id=" + id + ", llistaParaules=" + llistaParaules + "]";
     }
 }
