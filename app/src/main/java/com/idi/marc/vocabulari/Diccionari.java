@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * Created by Marc on 12/03/2015.
  */
-public class Diccionari {
+public class Diccionari /*implements Parcelable*/{
 
     private HashMap<Paraula,ArrayList<Paraula>> diccionari1;
     private HashMap<Paraula,ArrayList<Paraula>> diccionari2;

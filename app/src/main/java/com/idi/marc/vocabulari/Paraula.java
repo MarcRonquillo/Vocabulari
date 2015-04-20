@@ -1,9 +1,11 @@
 package com.idi.marc.vocabulari;
 
+import android.os.Parcelable;
+
 /**
  * Created by Marc on 12/03/2015.
  */
-public class Paraula {
+public class Paraula implements Parcelable {
 
     private String id;
     private Idioma idioma;
@@ -12,6 +14,10 @@ public class Paraula {
 
         setId(valor);
         setIdioma(idioma);
+    }
+
+    public int describeContents() {
+        return 0;
     }
 
     /**

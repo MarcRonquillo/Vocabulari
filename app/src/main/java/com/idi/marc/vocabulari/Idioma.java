@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 /**
  * Created by Marc on 12/03/2015.
  */
-public class Idioma {
+public class Idioma /*implements Parcelable*/{
 
     private String id;
     // private Integer idParaules=0;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class Joc {
+public class Joc /*implements Parcelable*/{
 
     private Idioma idiomaFrom;
     private Idioma idiomaTo;

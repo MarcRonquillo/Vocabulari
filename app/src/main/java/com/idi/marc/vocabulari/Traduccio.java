@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Map.Entry;
 
-public class Traduccio {
+public class Traduccio /*implements Parcelable*/{
 
     private static HashMap<Idioma[],Diccionari> diccionaris;
     private static HashMap<String,Idioma> idiomes;
