@@ -1,12 +1,13 @@
 package com.idi.marc.vocabulari;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 /**
  * Created by Marc on 12/03/2015.
  */
-public class Diccionari /*implements Parcelable*/{
+public class Diccionari implements Serializable {
 
     private HashMap<Paraula,ArrayList<Paraula>> diccionari1;
     private HashMap<Paraula,ArrayList<Paraula>> diccionari2;

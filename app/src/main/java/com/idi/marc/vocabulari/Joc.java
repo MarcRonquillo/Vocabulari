@@ -1,10 +1,11 @@
 package com.idi.marc.vocabulari;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class Joc /*implements Parcelable*/{
+public class Joc implements Serializable {
 
     private Idioma idiomaFrom;
     private Idioma idiomaTo;

@@ -1,11 +1,11 @@
 package com.idi.marc.vocabulari;
 
-import android.os.Parcelable;
+import java.io.Serializable;
 
 /**
  * Created by Marc on 12/03/2015.
  */
-public class Paraula implements Parcelable {
+public class Paraula implements Serializable {
 
     private String id;
     private Idioma idioma;
@@ -16,9 +16,6 @@ public class Paraula implements Parcelable {
         setIdioma(idioma);
     }
 
-    public int describeContents() {
-        return 0;
-    }
 
     /**
      * Getters i setters

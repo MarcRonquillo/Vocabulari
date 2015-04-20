@@ -1,5 +1,6 @@
 package com.idi.marc.vocabulari;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,7 +8,7 @@ import java.util.Map.Entry;
 /**
  * Created by Marc on 12/03/2015.
  */
-public class Idioma /*implements Parcelable*/{
+public class Idioma implements Serializable {
 
     private String id;
     // private Integer idParaules=0;

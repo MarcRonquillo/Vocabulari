@@ -1,18 +1,55 @@
 package com.idi.marc.vocabulari;
 
+import android.content.Context;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
-import android.widget.EditText;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 
 public class MainActivity extends ActionBarActivity {
-    public Traduccio trad = new Traduccio();
+
+    public Traduccio trad;
     //L'extra message hauria de ser un objecte de tipus Traduccio que fos new la primera execució
     //i que les següents vingués d'un fitxer per conservar la persistència
+
+    public void inicialitzar(){
+
+        String path=getFilesDir()+"/"+"bd.dat";
+        File f = new File(path);
+        if(f.exists() && !f.isDirectory()) { /* do something */ }
+        else{
+            trad = new Traduccio();
+        }
+    }
+
+    public void importar(String fitxer) {
+        ObjectInputStream ois=new ObjectInputStream(new FileInputStream(fitxer));
+        Traduccio aux=(Traduccio) ois.readObject();
+
+       trad=aux;
+
+    }
+
+    public void exportar(String fitxer)  {
+
+        ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(fitxer));
+        oos.writeObject(trad);
+        oos.close();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

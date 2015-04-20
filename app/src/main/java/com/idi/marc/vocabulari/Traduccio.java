@@ -1,12 +1,13 @@
 package com.idi.marc.vocabulari;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Map.Entry;
 
-public class Traduccio /*implements Parcelable*/{
+public class Traduccio implements Serializable {
 
     private static HashMap<Idioma[],Diccionari> diccionaris;
     private static HashMap<String,Idioma> idiomes;
