@@ -1,6 +1,7 @@
 package com.idi.marc.vocabulari;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
+import android.app.AlertDialog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,14 +22,14 @@ import java.io.ObjectOutputStream;
 
 public class MainActivity extends ActionBarActivity {
 
-    public Traduccio trad;
+    private Traduccio trad;
+    private String pathBD=getFilesDir()+"/"+"bd.dat";
     //L'extra message hauria de ser un objecte de tipus Traduccio que fos new la primera execució
     //i que les següents vingués d'un fitxer per conservar la persistència
 
     public void inicialitzar(){
 
-        String path=getFilesDir()+"/"+"bd.dat";
-        File f = new File(path);
+        File f = new File(pathBD);
         if(f.exists() && !f.isDirectory()) { /* do something */ }
         else{
             trad = new Traduccio();
@@ -35,18 +37,44 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void importar(String fitxer) {
-        ObjectInputStream ois=new ObjectInputStream(new FileInputStream(fitxer));
-        Traduccio aux=(Traduccio) ois.readObject();
 
-       trad=aux;
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fitxer));
+            Traduccio aux = (Traduccio) ois.readObject();
+            trad=aux;
+        }
+        catch (Exception e){
+            finestraAvis(e.getMessage());
+        }
 
     }
 
     public void exportar(String fitxer)  {
 
-        ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(fitxer));
-        oos.writeObject(trad);
-        oos.close();
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fitxer));
+            oos.writeObject(trad);
+            oos.close();
+        }
+        catch (Exception e){
+            finestraAvis(e.getMessage());
+        }
+    }
+
+    public void finestraAvis(String input){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(input);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
     }
 
 
