@@ -12,6 +12,7 @@ public class EditarActivity extends ActionBarActivity {
 
     Intent intentPrevi=getIntent();
     Traduccio trad=(Traduccio) intentPrevi.getSerializableExtra("trad");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

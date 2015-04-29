@@ -285,7 +285,7 @@ public class Traduccio implements Serializable {
 
     }
 
-    public void inicialitzar(){
+    public void inicialitzar() throws Exception{
         String casa="casa";
         String cotxe="cotxe";
         String forquilla="forquilla";
@@ -298,7 +298,7 @@ public class Traduccio implements Serializable {
         String green="green";
         String catala="catala";
         String angles="angles";
-        try{
+       // try{
             nouIdioma(catala);
             afegirParaula(casa,catala);
             afegirParaula(cotxe,catala);
@@ -311,10 +311,10 @@ public class Traduccio implements Serializable {
             afegirParaula(fork,angles);
             afegirParaula(chair,angles);
             afegirParaula(green,angles);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+       // }
+       // catch(Exception e){
+            //e.printStackTrace();
+       // }
         connectarParaules(casa,catala,house,angles);
         connectarParaules(cotxe,catala,car,angles);
         connectarParaules(forquilla,catala,fork,angles);

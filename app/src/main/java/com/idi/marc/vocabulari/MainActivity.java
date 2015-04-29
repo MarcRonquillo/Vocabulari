@@ -30,9 +30,21 @@ public class MainActivity extends ActionBarActivity {
     public void inicialitzar(){
 
         File f = new File(pathBD);
-        if(f.exists() && !f.isDirectory()) { /* do something */ }
+        if(f.exists() && !f.isDirectory()) {
+            //Llegir l'arxiu i assignar-lo a trad
+
+        importar(pathBD);
+
+        }
         else{
             trad = new Traduccio();
+            try {
+                trad.inicialitzar();
+            }
+            catch (Exception e){
+                finestraAvis(e.getMessage());
+            }
+
         }
     }
 
@@ -49,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void exportar(String fitxer)  {
+   public void exportar(String fitxer)  {
 
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fitxer));
@@ -59,6 +71,16 @@ public class MainActivity extends ActionBarActivity {
         catch (Exception e){
             finestraAvis(e.getMessage());
         }
+    }
+
+    public void activityEditar(View view) {
+        Intent intent = new Intent(this, EditarActivity.class);
+        //El que s'ha de passar amb putExtra és l'objecte Traduccio. És un key-value, com un hashMap
+        /*EditText editText = (EditText) findViewById(R.id.nomApp);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);*/
+        intent.putExtra("trad",trad);
+        startActivity(intent);
     }
 
     public void finestraAvis(String input){
@@ -77,11 +99,16 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onPause(){
+        exportar(pathBD);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        inicialitzar();
     }
 
 
@@ -107,13 +134,5 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void activityEditar(View view) {
-        Intent intent = new Intent(this, EditarActivity.class);
-        //El que s'ha de passar amb putExtra és l'objecte Traduccio. És un key-value, com un hashMap
-        /*EditText editText = (EditText) findViewById(R.id.nomApp);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);*/
-        intent.putExtra("trad",trad);
-        startActivity(intent);
-    }
+
 }
