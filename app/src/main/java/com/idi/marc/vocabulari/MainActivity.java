@@ -18,17 +18,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import android.content.Context;
 
 
 public class MainActivity extends ActionBarActivity {
 
     private Traduccio trad;
-    private String pathBD=getFilesDir()+"/"+"bd.dat";
+    private String pathBD;
+    static Context myContext;
     //L'extra message hauria de ser un objecte de tipus Traduccio que fos new la primera execució
     //i que les següents vingués d'un fitxer per conservar la persistència
 
     public void inicialitzar(){
 
+        pathBD=myContext.getFilesDir().getAbsolutePath()+"/bd.dat";
+       // String test=this.getFilesDir().getAbsolutePath();
         File f = new File(pathBD);
         if(f.exists() && !f.isDirectory()) {
             //Llegir l'arxiu i assignar-lo a trad
@@ -47,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
 
         }
     }
+
 
     public void importar(String fitxer) {
 
@@ -101,14 +106,18 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onPause(){
+
         exportar(pathBD);
+        super.onPause();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myContext=this;
         inicialitzar();
+
     }
 
 

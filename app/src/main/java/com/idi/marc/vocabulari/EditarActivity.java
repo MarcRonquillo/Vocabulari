@@ -10,13 +10,15 @@ import android.view.MenuItem;
 
 public class EditarActivity extends ActionBarActivity {
 
-    Intent intentPrevi=getIntent();
-    Traduccio trad=(Traduccio) intentPrevi.getSerializableExtra("trad");
+    Intent intentPrevi;
+    Traduccio trad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar);
+        intentPrevi=getIntent();
+        trad=(Traduccio) intentPrevi.getSerializableExtra("trad");
     }
 
 
