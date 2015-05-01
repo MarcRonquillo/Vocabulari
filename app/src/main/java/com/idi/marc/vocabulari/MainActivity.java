@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import android.content.Context;
 
 
@@ -31,7 +35,6 @@ public class MainActivity extends ActionBarActivity {
 
     public void inicialitzar(){
 
-        pathBD=myContext.getFilesDir().getAbsolutePath()+"/bd.dat";
        // String test=this.getFilesDir().getAbsolutePath();
         File f = new File(pathBD);
         if(f.exists() && !f.isDirectory()) {
@@ -56,12 +59,23 @@ public class MainActivity extends ActionBarActivity {
     public void importar(String fitxer) {
 
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fitxer));
+            /*ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fitxer));
             Traduccio aux = (Traduccio) ois.readObject();
             trad=aux;
+           Log.d("Vocabulari",trad.getParaula("casa", "catala").getId());
+            Log.d("Vocabulari","Hola");*/
+
+            FileInputStream fis = myContext.openFileInput(fitxer);
+            ObjectInputStream is = new ObjectInputStream(fis);
+            Traduccio aux = (Traduccio) is.readObject();
+            trad=aux;
+            is.close();
+            fis.close();
+
         }
         catch (Exception e){
-            finestraAvis(e.getMessage());
+            String avis=getStackTrace(e);
+            finestraAvis(avis);
         }
 
     }
@@ -69,13 +83,27 @@ public class MainActivity extends ActionBarActivity {
    public void exportar(String fitxer)  {
 
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fitxer));
+            /*ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fitxer));
             oos.writeObject(trad);
-            oos.close();
+            oos.close();*/
+
+            FileOutputStream fos = myContext.openFileOutput(fitxer, Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(trad);
+            os.close();
+            fos.close();
         }
         catch (Exception e){
-            finestraAvis(e.getMessage());
+            String avis=getStackTrace(e);
+            finestraAvis(avis);
         }
+    }
+
+    public static String getStackTrace(final Throwable throwable) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw, true);
+        throwable.printStackTrace(pw);
+        return sw.getBuffer().toString();
     }
 
     public void activityEditar(View view) {
@@ -89,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void finestraAvis(String input){
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(myContext);
         builder1.setMessage(input);
         builder1.setCancelable(true);
         builder1.setPositiveButton("OK",
@@ -107,8 +135,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onPause(){
 
-        exportar(pathBD);
         super.onPause();
+        exportar(pathBD);
+
     }
 
     @Override
@@ -116,6 +145,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myContext=this;
+        //pathBD=myContext.getFilesDir().getAbsolutePath()+"/bd.dat";
+        pathBD="bd.dat";
         inicialitzar();
 
     }

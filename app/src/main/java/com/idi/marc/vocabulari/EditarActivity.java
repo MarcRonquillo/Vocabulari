@@ -6,19 +6,27 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 
-public class EditarActivity extends ActionBarActivity {
+public class EditarActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
 
     Intent intentPrevi;
     Traduccio trad;
+    private Spinner spinnerIdioma;
+    private Idioma idiomaActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar);
         intentPrevi=getIntent();
-        trad=(Traduccio) intentPrevi.getSerializableExtra("trad");
+        trad=(Traduccio)intentPrevi.getSerializableExtra("trad");
+
+        setSpinnerIdioma();
     }
 
 
@@ -42,5 +50,29 @@ public class EditarActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setSpinnerIdioma(){
+
+        spinnerIdioma = (Spinner) this.findViewById(R.id.spinnerIdiomes);
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomes());
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIdioma.setAdapter(adaptador);
+
+
+
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        idiomaActual=trad.getIdioma((String)parent.getItemAtPosition(pos));
+
+        spinnerIdioma.setOnItemSelectedListener(this);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 }
