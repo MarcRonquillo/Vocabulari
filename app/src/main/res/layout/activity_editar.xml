@@ -15,7 +15,16 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="125dp"
         android:id="@+id/layoutDesplegables"
-        android:layout_below="@+id/textView">
+        android:layout_below="@+id/textView"
+        android:layout_marginRight="160dp">
+
+        <TextView
+            android:layout_width="177dp"
+            android:layout_height="wrap_content"
+            android:text="Idioma"
+            android:id="@+id/desplegableParaulesTitol"
+            android:textColor="#ffffffff"
+            android:textSize="20dp" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -24,6 +33,43 @@
             android:layout_gravity="center_horizontal"
             android:popupBackground="#ffffffff"
             android:background="#ffffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paraula"
+            android:id="@+id/textView2"
+            android:textSize="20dp"
+            android:textColor="#ffffffff" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerParaules"
+            android:background="#ffffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Traduïr al:"
+            android:id="@+id/traduccioText"
+            android:textColor="#ffffffff"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerTraduccions"
+            android:background="#ffffffff" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/traduccionsText"
+            android:background="#ffffffff"
+            android:textColor="#fa000000"
+            android:textSize="20dp" />
+
     </LinearLayout>
 
     <TextView
@@ -35,4 +81,5 @@
         android:layout_alignParentEnd="true"
         android:textColor="#ffffffff"
         android:textSize="50dp" />
+
 </RelativeLayout>

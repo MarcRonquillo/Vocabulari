@@ -28,7 +28,8 @@
             android:textSize="25dp"
             android:textStyle="normal"
             android:clickable="true"
-            android:onClick="activityEditar"/>
+            android:onClick="activityEditar"
+            android:focusable="true" />
 
     </LinearLayout>
 
@@ -95,7 +96,8 @@
             android:layout_below="@+id/layoutBotoEditar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
-            android:clickable="true" />
+            android:clickable="true"
+            android:focusable="true" />
     </LinearLayout>
 
 </RelativeLayout>

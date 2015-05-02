@@ -237,6 +237,18 @@ public class Traduccio implements Serializable {
         return dicc;
     }
 
+    public ArrayList<String> getLlistaIdiomesMenysPropi(String idioma){
+        ArrayList<String> dicc=new ArrayList<String>();
+
+        Iterator<Entry<String, Idioma>> it = idiomes.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String,Idioma> pair = (Entry<String,Idioma>)it.next();
+            if(!pair.getValue().getId().equals(idioma))
+            dicc.add(pair.getValue().getId());
+        }
+        return dicc;
+    }
+
     public ArrayList<String> getLlistaParaules(String idi){
 
         return idiomes.get(idi).getLlistaParaules();
@@ -296,8 +308,11 @@ public class Traduccio implements Serializable {
         String fork="fork";
         String chair="chair";
         String green="green";
-        String catala="catala";
-        String angles="angles";
+        String catala="català";
+        String angles="anglès";
+
+
+
        // try{
             nouIdioma(catala);
             afegirParaula(casa,catala);
@@ -311,10 +326,7 @@ public class Traduccio implements Serializable {
             afegirParaula(fork,angles);
             afegirParaula(chair,angles);
             afegirParaula(green,angles);
-       // }
-       // catch(Exception e){
-            //e.printStackTrace();
-       // }
+
         connectarParaules(casa,catala,house,angles);
         connectarParaules(cotxe,catala,car,angles);
         connectarParaules(forquilla,catala,fork,angles);
