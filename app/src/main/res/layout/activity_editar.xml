@@ -40,7 +40,8 @@
             android:text="Paraula"
             android:id="@+id/textView2"
             android:textSize="20dp"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:layout_marginTop="10dp" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -54,7 +55,8 @@
             android:text="Traduïr al:"
             android:id="@+id/traduccioText"
             android:textColor="#ffffffff"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginTop="10dp" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -68,7 +70,8 @@
             android:id="@+id/traduccionsText"
             android:background="#ffffffff"
             android:textColor="#fa000000"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginTop="25dp" />
 
     </LinearLayout>
 
@@ -81,5 +84,107 @@
         android:layout_alignParentEnd="true"
         android:textColor="#ffffffff"
         android:textSize="50dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="170dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView"
+        android:id="@+id/layoutBotons"
+        android:layout_marginBottom="260dp">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Eliminar"
+            android:id="@+id/esborrarIdioma"
+            android:clickable="true"
+            android:layout_alignTop="@+id/layoutDesplegables"
+            android:layout_alignEnd="@+id/textView"
+            android:onClick="onClickEliminarIdioma"
+            android:textSize="15dp" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Eliminar"
+            android:id="@+id/esborrarParaula"
+            android:layout_marginTop="63dp"
+            android:clickable="true"
+            android:onClick="onClickEliminarParaula"
+            android:layout_below="@+id/esborrarIdioma"
+            android:layout_alignStart="@+id/esborrarIdioma"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="270dp"
+        android:id="@+id/layoutSpinnersDreta">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Esborrar traducció"
+            android:id="@+id/textEsborrarTraduccio"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/spinnerEsborrarTrad"
+            android:textSize="17dp"
+            android:textColor="#ffffffff" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerEsborrarTrad"
+            android:layout_below="@+id/esborrarParaula"
+            android:layout_alignParentEnd="true"
+            android:background="#ffffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Afegir traducció"
+            android:id="@+id/textView3"
+            android:layout_marginTop="25dp"
+            android:textColor="#ffffffff"
+            android:textSize="17dp"
+            android:layout_below="@+id/spinnerEsborrarTrad"
+            android:layout_alignStart="@+id/spinnerAfegirTrad" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerAfegirTrad"
+            android:background="#ffffffff"
+            android:layout_below="@+id/textView3"
+            android:layout_alignStart="@+id/spinnerEsborrarTrad" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="430dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar"
+            android:id="@+id/borrarTrad" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Afegir"
+            android:id="@+id/afegirTrad" />
+    </LinearLayout>
 
 </RelativeLayout>
