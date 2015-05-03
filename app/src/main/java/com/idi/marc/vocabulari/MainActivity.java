@@ -30,20 +30,23 @@ public class MainActivity extends ActionBarActivity {
     private Traduccio trad;
     private String pathBD;
     static Context myContext;
+    private static final String TAG = "MyActivity";
     //L'extra message hauria de ser un objecte de tipus Traduccio que fos new la primera execució
     //i que les següents vingués d'un fitxer per conservar la persistència
 
     public void inicialitzar(){
 
        // String test=this.getFilesDir().getAbsolutePath();
-        File f = new File(pathBD);
+        File f = new File(this.getFilesDir().getAbsolutePath()+"/"+pathBD);
         if(f.exists() && !f.isDirectory()) {
             //Llegir l'arxiu i assignar-lo a trad
 
         importar(pathBD);
 
+
         }
         else{
+
             trad = new Traduccio();
             try {
                 trad.inicialitzar();
@@ -172,6 +175,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void guardar(View view){
+
+        exportar(pathBD);
     }
 
 

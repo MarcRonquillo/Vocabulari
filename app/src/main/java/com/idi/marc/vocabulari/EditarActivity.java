@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 
 
 public class EditarActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
@@ -36,6 +37,11 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
     private Paraula paraulaAAfegir;
     private Paraula paraulaAEsborrar;
     static Context myContext;
+    private ArrayList<String> llistaBuida;
+    private boolean spinnerBuitElimIdioma;
+    private boolean spinnerBuitElimParaula;
+    private boolean spinnerBuitElimTrad;
+    private boolean spinnerBuitAfegirTrad;
     private static final String TAG = "MyActivity";
 
     @Override
@@ -45,6 +51,12 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
         intentPrevi = getIntent();
         trad = (Traduccio) intentPrevi.getSerializableExtra("trad");
         myContext = this;
+        spinnerBuitElimIdioma=false;
+        spinnerBuitElimParaula=false;
+        spinnerBuitElimTrad=false;
+        spinnerBuitAfegirTrad=false;
+        llistaBuida=new ArrayList<String>();
+        llistaBuida.add("-");
         setSpinnerIdioma();
         addListenerOnSpinnerItemSelectionIdioma();
     }
@@ -75,9 +87,19 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
     public void setSpinnerIdioma() {
 
         spinnerIdioma = (Spinner) findViewById(R.id.spinnerIdiomes);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomes());
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerIdioma.setAdapter(adaptador);
+        try {
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomes());
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerIdioma.setAdapter(adaptador);
+            spinnerBuitElimIdioma=false;
+        }
+        catch(Exception e){
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, llistaBuida);
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerIdioma.setAdapter(adaptador);
+            spinnerBuitElimIdioma=true;
+        }
+
 
 
     }
@@ -85,32 +107,67 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
     public void setSpinnerParaula() {
 
         spinnerParaula = (Spinner) findViewById(R.id.spinnerParaules);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaParaules(idiomaActual.getId()));
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerParaula.setAdapter(adaptador);
+        try {
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaParaules(idiomaActual.getId()));
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerParaula.setAdapter(adaptador);
+            spinnerBuitElimParaula=false;
+        }
+        catch(Exception e){
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, llistaBuida);
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerParaula.setAdapter(adaptador);
+            spinnerBuitElimParaula=true;
+        }
 
     }
 
     public void setSpinnerTraduccions() {
         spinnerTraduccio = (Spinner) findViewById(R.id.spinnerTraduccions);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomesMenysPropi(idiomaActual.getId()));
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTraduccio.setAdapter(adaptador);
+        try {
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomesMenysPropi(idiomaActual.getId()));
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerTraduccio.setAdapter(adaptador);
+        }
+        catch(Exception e){
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, llistaBuida);
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerTraduccio.setAdapter(adaptador);
+
+        }
 
     }
 
     public void setSpinnerEsborrarTraduccions(){
         spinnerBorrar = (Spinner) findViewById(R.id.spinnerEsborrarTrad);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getTraduccio(paraulaActual.getId(), idiomaActual.getId(),idiomaOut.getId()));
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerBorrar.setAdapter(adaptador);
+        try {
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getTraduccio(paraulaActual.getId(), idiomaActual.getId(), idiomaOut.getId()));
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerBorrar.setAdapter(adaptador);
+            spinnerBuitElimTrad=false;
+        }
+        catch(Exception e){
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,llistaBuida);
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerBorrar.setAdapter(adaptador);
+            spinnerBuitElimTrad=true;
+        }
     }
 
     public void setSpinnerAfegirTraduccions(){
         spinnerAfegir = (Spinner) findViewById(R.id.spinnerAfegirTrad);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaParaules(idiomaOut.getId()));
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAfegir.setAdapter(adaptador);
+        try {
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaParaules(idiomaOut.getId()));
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerAfegir.setAdapter(adaptador);
+            spinnerBuitAfegirTrad=false;
+        }
+        catch(Exception e){
+            ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, llistaBuida);
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerAfegir.setAdapter(adaptador);
+            spinnerBuitAfegirTrad=true;
+        }
     }
 
     public void addListenerOnSpinnerItemSelectionIdioma() {
@@ -148,13 +205,17 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
                     idiomaActual = trad.getIdioma((String) parent.getItemAtPosition(pos));
                 setSpinnerParaula();
                 addListenerOnSpinnerSelectionParaula();
+                //actualitzarSpinners();
                 //Log.i(TAG, "idioma=" + idiomaActual.getId());
+                setSpinnerTraduccions();
+                addListenerOnSpinnerSelectionTraduccio();
                 break;
 
             case R.id.spinnerParaules:
                 paraulaActual = trad.getParaula((String) parent.getItemAtPosition(pos), idiomaActual.getId());
                 setSpinnerTraduccions();
                 addListenerOnSpinnerSelectionTraduccio();
+                //actualitzarSpinners();
                 break;
 
             case R.id.spinnerTraduccions:
@@ -169,6 +230,7 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
                 addListenerOnSpinnerSelectionTrad();
                 setSpinnerEsborrarTraduccions();
                 addListenerOnSpinnerSelectionBorrar();
+                //actualitzarSpinners();
                 break;
             case R.id.spinnerAfegirTrad:
 
@@ -189,12 +251,115 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
 
     }
 
+public void onClickEliminarTraduccio(View view){
+    if(!spinnerBuitElimTrad) {
+        trad.removeTraduccio(paraulaActual.getId(), idiomaActual.getId(), paraulaAEsborrar.getId(), idiomaOut.getId());
+        actualitzarSpinners();
+    }
+
+}
+
+public void onClickAfegirTraduccio(View view){
+    if(!spinnerBuitAfegirTrad) {
+        trad.connectarParaules(paraulaActual.getId(), idiomaActual.getId(), paraulaAAfegir.getId(), idiomaOut.getId());
+        actualitzarSpinners();
+    }
+}
+
+public void onClickAfegirIdioma(View view){
+
+    finestraIntrotext(1);
+}
+
+public void onClickAfegirParaulaBoto(View view){
+    finestraIntrotext(2);
+}
+
+public void finestraIntrotext (int i) {
+
+
+    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+    switch(i) {
+        case 1:
+            //Nou idioma
+
+        alert.setMessage("Nou idioma:");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = input.getText().toString();
+                try {
+                    trad.nouIdioma(value);
+                    actualitzarSpinners();
+                }
+                catch(Exception e){
+                    String avis = getStackTrace(e);
+                    finestraAvis(avis);
+                }
+
+                // Do something with value!
+            }
+        });
+
+        alert.setNegativeButton("Cancel·lar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+            alert.show();
+            break;
+        case 2:
+        //Nova paraula
+            alert.setMessage("Nova paraula:");
+
+            // Set an EditText view to get user input
+            final EditText input1 = new EditText(this);
+            alert.setView(input1);
+
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String value = input1.getText().toString();
+                    try {
+                        trad.afegirParaula(value,idiomaActual.getId());
+                        actualitzarSpinners();
+                    }
+                    catch(Exception e){
+                        String avis = getStackTrace(e);
+                        finestraAvis(avis);
+                    }
+
+                    // Do something with value!
+                }
+            });
+
+            alert.setNegativeButton("Cancel·lar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Canceled.
+                }
+            });
+            alert.show();
+            break;
+
+
+    }
+
+}
 public void actualitzarSpinners(){
     setSpinnerIdioma();
+    //addListenerOnSpinnerItemSelectionIdioma();
     setSpinnerParaula();
+    //addListenerOnSpinnerSelectionParaula();
     setSpinnerTraduccions();
+    //addListenerOnSpinnerSelectionTraduccio();
     setSpinnerEsborrarTraduccions();
+    //addListenerOnSpinnerSelectionBorrar();
     setSpinnerAfegirTraduccions();
+    //addListenerOnSpinnerSelectionTrad();
 }
 public void finestraOkCancel(int i){
 
@@ -244,10 +409,12 @@ public void finestraOkCancel(int i){
 }
 
     public void onClickEliminarIdioma(View view){
-        finestraOkCancel(1);
+        if(!spinnerBuitElimIdioma)
+            finestraOkCancel(1);
     }
 
     public void onClickEliminarParaula(View view){
+        if(!spinnerBuitElimParaula)
         finestraOkCancel(2);
     }
 
