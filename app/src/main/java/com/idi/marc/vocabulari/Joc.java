@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Joc implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Idioma idiomaFrom;
     private Idioma idiomaTo;
     Diccionari diccionari;

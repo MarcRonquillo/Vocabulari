@@ -202,30 +202,57 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
 
         switch (parent.getId()) {
             case R.id.spinnerIdiomes:
+                if(!trad.getLlistaIdiomes().isEmpty()) {
                     idiomaActual = trad.getIdioma((String) parent.getItemAtPosition(pos));
-                setSpinnerParaula();
-                addListenerOnSpinnerSelectionParaula();
-                //actualitzarSpinners();
+                    Log.i(TAG, "idioma actual="+idiomaActual.getId());
+                    setSpinnerParaula();
+                    addListenerOnSpinnerSelectionParaula();
+                }
+
+                /////////////////////////////////////////
+                if(idiomaActual.getLlistaParaules().isEmpty()){
+                    TextView myTextView = (TextView) findViewById(R.id.traduccionsText);
+                        myTextView.setText("");
+                    setSpinnerParaula();
+                }
+
+                ///////
                 //Log.i(TAG, "idioma=" + idiomaActual.getId());
                 setSpinnerTraduccions();
                 addListenerOnSpinnerSelectionTraduccio();
                 break;
 
             case R.id.spinnerParaules:
-                paraulaActual = trad.getParaula((String) parent.getItemAtPosition(pos), idiomaActual.getId());
-                setSpinnerTraduccions();
-                addListenerOnSpinnerSelectionTraduccio();
+                if(!trad.getLlistaIdiomes().isEmpty()) {
+                    paraulaActual = trad.getParaula((String) parent.getItemAtPosition(pos), idiomaActual.getId());
+                    setSpinnerTraduccions();
+                    addListenerOnSpinnerSelectionTraduccio();
+                }
                 //actualitzarSpinners();
                 break;
 
             case R.id.spinnerTraduccions:
                 TextView myTextView = (TextView) findViewById(R.id.traduccionsText);
                 StringBuilder builder = new StringBuilder();
-                for (String details : trad.getTraduccio(paraulaActual.getId(), idiomaActual.getId(), (String) parent.getItemAtPosition(pos))) {
-                    builder.append(details + ", ");
+                try {
+                    idiomaOut = trad.getIdioma((String) parent.getItemAtPosition(pos));
+                    if (trad.getLlistaIdiomes().size()>=2) {
+                        for (String details : trad.getTraduccio(paraulaActual.getId(), idiomaActual.getId(), (String) parent.getItemAtPosition(pos))) {
+                            builder.append(details + ", ");
+                        }
+                        myTextView.setText(builder.toString());
+                    }
+                    else{
+                        builder.append("");
+                        myTextView.setText(builder.toString());
+                    }
+
+
                 }
-                myTextView.setText(builder.toString());
-                idiomaOut=trad.getIdioma((String) parent.getItemAtPosition(pos));
+                catch(Exception e){
+                    setSpinnerTraduccions();
+
+                }
                 setSpinnerAfegirTraduccions();
                 addListenerOnSpinnerSelectionTrad();
                 setSpinnerEsborrarTraduccions();
@@ -233,15 +260,25 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
                 //actualitzarSpinners();
                 break;
             case R.id.spinnerAfegirTrad:
+                if((idiomaOut!=null)){
+                    if((!trad.getLlistaIdiomes().isEmpty())&& (trad.getLlistaIdiomes().size()>1) && (!idiomaOut.getLlistaParaules().isEmpty())) {
 
-                paraulaAAfegir=trad.getParaula((String) parent.getItemAtPosition(pos),idiomaOut.getId());
+                    paraulaAAfegir = trad.getParaula((String) parent.getItemAtPosition(pos), idiomaOut.getId());
+                }
+                }
                    /* trad.connectarParaules(paraulaActual.getId(),idiomaActual.getId(),(String) parent.getItemAtPosition(pos),idiomaOut.getId());
                     setSpinnerIdioma();*/
 
                 break;
             case R.id.spinnerEsborrarTrad:
-
-                paraulaAEsborrar=trad.getParaula((String) parent.getItemAtPosition(pos),idiomaOut.getId());
+                if(!trad.getLlistaIdiomes().isEmpty()) {
+                    try {
+                        paraulaAEsborrar = trad.getParaula((String) parent.getItemAtPosition(pos), idiomaOut.getId());
+                    }
+                    catch(Exception e){
+                        setSpinnerTraduccions();
+                    }
+                }
 
                     /*trad.removeTraduccio(paraulaActual.getId(),idiomaActual.getId(),(String) parent.getItemAtPosition(pos),idiomaOut.getId());
                     setSpinnerIdioma();*/
@@ -252,17 +289,31 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
     }
 
 public void onClickEliminarTraduccio(View view){
-    if(!spinnerBuitElimTrad) {
-        trad.removeTraduccio(paraulaActual.getId(), idiomaActual.getId(), paraulaAEsborrar.getId(), idiomaOut.getId());
-        actualitzarSpinners();
+    try {
+        if (!spinnerBuitElimTrad) {
+            trad.removeTraduccio(paraulaActual.getId(), idiomaActual.getId(), paraulaAEsborrar.getId(), idiomaOut.getId());
+            //actualitzarSpinners();
+            setSpinnerEsborrarTraduccions();
+            setSpinnerTraduccions();
+        }
+    }
+    catch(Exception e){
+
     }
 
 }
 
 public void onClickAfegirTraduccio(View view){
-    if(!spinnerBuitAfegirTrad) {
-        trad.connectarParaules(paraulaActual.getId(), idiomaActual.getId(), paraulaAAfegir.getId(), idiomaOut.getId());
-        actualitzarSpinners();
+    try {
+        if (!spinnerBuitAfegirTrad) {
+            trad.connectarParaules(paraulaActual.getId(), idiomaActual.getId(), paraulaAAfegir.getId(), idiomaOut.getId());
+            //actualitzarSpinners();
+            setSpinnerEsborrarTraduccions();
+            setSpinnerTraduccions();
+        }
+    }
+    catch(Exception e){
+
     }
 }
 
@@ -326,7 +377,11 @@ public void finestraIntrotext (int i) {
                     String value = input1.getText().toString();
                     try {
                         trad.afegirParaula(value,idiomaActual.getId());
-                        actualitzarSpinners();
+                        //actualitzarSpinners();
+                        setSpinnerParaula();
+                        setSpinnerTraduccions();
+                        setSpinnerAfegirTraduccions();
+                        setSpinnerEsborrarTraduccions();
                     }
                     catch(Exception e){
                         String avis = getStackTrace(e);
@@ -376,6 +431,11 @@ public void finestraOkCancel(int i){
                                 try {
                                     trad.eliminarIdioma(idiomaActual.getId());
                                     actualitzarSpinners();
+                                    if(trad.getLlistaIdiomes().size()<=2) {
+                                        TextView myTextView = (TextView) findViewById(R.id.traduccionsText);
+                                        String s = "";
+                                        myTextView.setText(s);
+                                    }
                                 }
                                 catch(Exception e){
                                     String avis = getStackTrace(e);
@@ -390,9 +450,15 @@ public void finestraOkCancel(int i){
                 adb.setPositiveButton("Si",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                    try {
+                                        trad.eliminarParaula(paraulaActual.getId(), idiomaActual.getId());
+                                        actualitzarSpinners();
+                                    }
+                                    catch(Exception e){
+                                        String avis = getStackTrace(e);
+                                        finestraAvis(avis);
+                                    }
 
-                                    trad.eliminarParaula(paraulaActual.getId(),idiomaActual.getId());
-                                    actualitzarSpinners();
                             }
                         });
                 break;

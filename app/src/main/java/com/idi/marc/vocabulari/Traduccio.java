@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 public class Traduccio implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static HashMap<Idioma[],Diccionari> diccionaris;
     private static HashMap<String,Idioma> idiomes;
     private ArrayList<Integer> puntuacionsMode1;

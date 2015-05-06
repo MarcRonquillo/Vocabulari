@@ -9,6 +9,7 @@ import java.util.Iterator;
  */
 public class Diccionari implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private HashMap<Paraula,ArrayList<Paraula>> diccionari1;
     private HashMap<Paraula,ArrayList<Paraula>> diccionari2;
     private Idioma idiomaFrom, idiomaTo;

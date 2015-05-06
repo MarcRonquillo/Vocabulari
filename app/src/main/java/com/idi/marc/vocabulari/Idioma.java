@@ -10,6 +10,7 @@ import java.util.Map.Entry;
  */
 public class Idioma implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String id;
     // private Integer idParaules=0;
     private HashMap<String,Paraula> llistaParaules;

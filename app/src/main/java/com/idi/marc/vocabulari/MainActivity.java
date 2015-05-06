@@ -17,8 +17,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -35,17 +37,20 @@ public class MainActivity extends ActionBarActivity {
     //i que les següents vingués d'un fitxer per conservar la persistència
 
     public void inicialitzar(){
-
+/*
        // String test=this.getFilesDir().getAbsolutePath();
-        File f = new File(this.getFilesDir().getAbsolutePath()+"/"+pathBD);
+        File f = new File(myContext.getFilesDir().getPath()+"/"+"bd.dat");
         if(f.exists() && !f.isDirectory()) {
             //Llegir l'arxiu i assignar-lo a trad
-
+            Log.i(TAG, "fitxer trobat, important");
         importar(pathBD);
 
 
         }
         else{
+            Log.i(TAG, "fitxer no trobat, generant nou bd.dat");
+            Log.i(TAG, this.getFilesDir().getAbsolutePath()+"/"+"bd.dat");
+            Log.i(TAG, this.getFilesDir().getPath()+"/"+"bd.dat");
 
             trad = new Traduccio();
             try {
@@ -55,6 +60,13 @@ public class MainActivity extends ActionBarActivity {
                 finestraAvis(e.getMessage());
             }
 
+        }*/
+        trad = new Traduccio();
+        try {
+            trad.inicialitzar();
+        }
+        catch (Exception e){
+            finestraAvis(e.getMessage());
         }
     }
 
@@ -70,10 +82,11 @@ public class MainActivity extends ActionBarActivity {
 
             FileInputStream fis = myContext.openFileInput(fitxer);
             ObjectInputStream is = new ObjectInputStream(fis);
-            Traduccio aux = (Traduccio) is.readObject();
-            trad=aux;
+            trad = (Traduccio) is.readObject();
             is.close();
             fis.close();
+
+
 
         }
         catch (Exception e){
@@ -89,16 +102,25 @@ public class MainActivity extends ActionBarActivity {
             /*ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fitxer));
             oos.writeObject(trad);
             oos.close();*/
-
-            FileOutputStream fos = myContext.openFileOutput(fitxer, Context.MODE_PRIVATE);
+            eliminarFitxer();
+            FileOutputStream fos = myContext.openFileOutput(fitxer, myContext.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(trad);
+            os.flush();
             os.close();
             fos.close();
         }
         catch (Exception e){
             String avis=getStackTrace(e);
             finestraAvis(avis);
+        }
+    }
+
+    public void eliminarFitxer(){
+        File file=new File(myContext.getFilesDir().getPath()+"/"+"bd.dat");
+        if(file.exists()) {
+            Log.i(TAG, "esborrant arxiu");
+            file.delete();
         }
     }
 
@@ -139,7 +161,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onPause(){
 
         super.onPause();
-        exportar(pathBD);
+        //exportar(pathBD);
+        Log.i(TAG, "guardant");
 
     }
 
@@ -177,10 +200,141 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void guardar(View view){
+    public  void guardar(View view){
 
-        exportar(pathBD);
+        //Log.i(TAG, trad.getIdioma("català").getParaula("ordinador").getId());
+        //exportar(pathBD);
+        /*String test1=new String("Si");
+        String test2=new String("No");*/
+
+       /* Traduccio tradu=new Traduccio();
+
+        try {
+            tradu.nouIdioma("suajili");
+        }
+        catch (Exception e){
+            String avis=getStackTrace(e);
+            finestraAvis(avis);
+        }
+
+        try {
+            File file=new File(getFilesDir().getPath()+"/test1.dat");
+            if(file.exists()) {
+                Log.i(TAG, "esborrant arxiu");
+                file.delete();
+            }
+            FileOutputStream fos = openFileOutput("test1.dat", myContext.MODE_WORLD_READABLE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(tradu);
+            os.flush();
+            os.close();
+            fos.close();
+        }
+        catch (Exception e){
+            String avis=getStackTrace(e);
+            finestraAvis(avis);
+        }*/
+        // add-write text into file
+        try {
+            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
+            outputWriter.write("prova");
+            outputWriter.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
+   /* public static void save(){
+        exportar("bd.dat");
+        //Log.i(TAG, "idioma=" + idiomaActual.getId());
+    }*/
+
+    public void onClickObrir(View view){
+        /*Traduccio tradu2;
+
+        try {
+            FileInputStream fis = openFileInput("test1.dat");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            tradu2 = (Traduccio) is.readObject();
+            is.close();
+            fis.close();
+            Log.i(TAG, tradu2.getIdioma("suajili").getId());
+        }
+        catch (Exception e){
+            String avis=getStackTrace(e);
+            finestraAvis(avis);
+        }*/
+        //reading text from file
+        try {
+            FileInputStream fileIn=openFileInput("mytextfile.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[256];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            InputRead.close();
+            Log.i(TAG, s);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void WriteBtn() {
+        // add-write text into file
+        try {
+            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
+            outputWriter.write("prova");
+            outputWriter.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Read text from file
+    public void ReadBtn() {
+        //reading text from file
+        try {
+            FileInputStream fileIn=openFileInput("mytextfile.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[256];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            InputRead.close();
+            Log.i(TAG, s);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
