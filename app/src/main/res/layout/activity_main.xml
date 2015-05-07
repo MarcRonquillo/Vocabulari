@@ -74,8 +74,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_marginEnd="40dp"
-        android:clickable="true"
-        android:onClick="onClickObrir" />
+        android:clickable="true" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -99,7 +98,7 @@
             android:layout_marginTop="80dp"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="guardar" />
+            android:onClick="onClickJoc" />
     </LinearLayout>
 
 </RelativeLayout>
