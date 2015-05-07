@@ -15,6 +15,9 @@ public class Traduccio implements Serializable {
     private ArrayList<Integer> puntuacionsMode1;
     private ArrayList<Integer> puntuacionsMode2;
     private ArrayList<Integer> puntuacionsMode3;
+    public static String idioma1Joc;
+    public static String idioma2Joc;
+    public static String mode;
     Joc jocActual;
 
     Integer idIdiomes=0;

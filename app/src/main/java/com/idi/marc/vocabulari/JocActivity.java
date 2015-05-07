@@ -16,16 +16,16 @@ import java.util.ArrayList;
 
 public class JocActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
 
-    Intent intentPrevi;
-    Traduccio trad;
+    private Intent intentPrevi;
+    private Traduccio trad;
     static Context myContext;
-    Spinner spinnerIdioma1;
-    Spinner spinnerIdioma2;
-    Spinner spinnerMode;
-    Idioma idioma1;
-    Idioma idioma2;
-    String mode;
-    ArrayList<String> modes;
+    private Spinner spinnerIdioma1;
+    private Spinner spinnerIdioma2;
+    private Spinner spinnerMode;
+    private Idioma idioma1;
+    private Idioma idioma2;
+    private String mode;
+    private ArrayList<String> modes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
         trad = (Traduccio) intentPrevi.getSerializableExtra("trad");
         myContext = this;
 
+        modes=new ArrayList<String>();
         modes.add("10 paraules");
         modes.add("20 paraules");
         modes.add("30 segons");
@@ -140,6 +141,15 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
     }
 
     public void onClickStart(View view){
-        
+
+        if((idioma1!=null)&&(idioma2!=null)) {
+            Traduccio.idioma1Joc=idioma1.getId();
+            Traduccio.idioma2Joc=idioma2.getId();
+            Traduccio.mode=mode;
+            Intent intent = new Intent(this, JocActivity.class);
+            intent.putExtra("trad",trad);
+            startActivity(intent);
+        }
     }
+
 }
