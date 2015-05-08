@@ -1,9 +1,12 @@
 package com.idi.marc.vocabulari;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +29,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
     private Idioma idioma2;
     private String mode;
     private ArrayList<String> modes;
+    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +136,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
                 break;
             case R.id.spinnerMode:
                 mode=(String)parent.getItemAtPosition(pos);
+                Traduccio.mode=mode;
                 break;
         }
     }
@@ -146,10 +151,48 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
             Traduccio.idioma1Joc=idioma1.getId();
             Traduccio.idioma2Joc=idioma2.getId();
             Traduccio.mode=mode;
-            Intent intent = new Intent(this, JocActivity.class);
+            Intent intent = new Intent(this, JocActualActivity.class);
             intent.putExtra("trad",trad);
             startActivity(intent);
         }
     }
+
+    public void onClickEstadistiques(View view){
+
+        int i=0;
+        String showable=new String();
+        StringBuilder builder = new StringBuilder();
+
+       /* for(i=0;i<trad.getModes().size();i++){
+            showable+="Mode: "+trad.getModes().get(i) + " Punts: "+trad.getPunts().get(i).toString()+" Errors: "+trad.getErrors().get(i).toString()+"\n";
+        }*/
+
+                /*for (String details : trad.getModes()) {
+                    builder.append("Mode"+details + " Punts: "+trad.getPunts().get(i).toString()+" Errors: "+trad.getErrors().get(i).toString()+"\n");
+                    i++;
+                }
+                showable=builder.toString();*/
+        Log.i(TAG, "Mode  "+trad.mode);
+        Log.i(TAG, "punts "+trad.getPunts().get(0).toString());
+        Log.i(TAG, "errors "+trad.getErrors().get(0).toString());
+                finestraAvis(showable);
+    }
+
+    public void finestraAvis(String input){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(myContext);
+        builder1.setMessage(input);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+    }
+
 
 }

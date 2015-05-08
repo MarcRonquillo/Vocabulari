@@ -32,6 +32,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.idi.marc.vocabulari.MainActivity" />
         </activity>
+        <activity
+            android:name=".JocActualActivity"
+            android:label="@string/title_activity_joc_actual"
+            android:parentActivityName=".JocActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.idi.marc.vocabulari.JocActivity" />
+        </activity>
     </application>
 
 </manifest>

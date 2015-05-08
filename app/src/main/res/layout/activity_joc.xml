@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinnerIdioma1"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="110dp"
             android:layout_marginRight="50dp"
             android:background="#ffffffff" />
 
@@ -63,7 +63,7 @@
             android:id="@+id/spinnerIdioma2"
             android:layout_marginTop="10dp"
             android:background="#ffffffff"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="110dp"
             android:layout_marginRight="50dp" />
 
         <TextView
@@ -82,7 +82,7 @@
             android:id="@+id/spinnerMode"
             android:layout_marginTop="10dp"
             android:background="#ffffffff"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="110dp"
             android:layout_marginRight="50dp" />
 
         <Button
@@ -90,9 +90,29 @@
             android:layout_height="wrap_content"
             android:text="Start"
             android:id="@+id/botoStart"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="110dp"
+            android:layout_marginTop="66dp"
+            android:layout_marginLeft="200dp"
             android:textSize="15dp"
-            android:onClick="onClickStart" />
+            android:onClick="onClickStart"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/layoutBotoStad">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estadístiques"
+            android:id="@+id/botoEstadistiques"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="30dp"
+            android:textSize="15dp"
+            android:onClick="onClickEstadistiques"
+            android:clickable="true" />
     </LinearLayout>
 </RelativeLayout>
