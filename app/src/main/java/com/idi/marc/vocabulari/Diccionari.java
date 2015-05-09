@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Created by Marc on 12/03/2015.
  */
@@ -20,6 +22,22 @@ public class Diccionari implements Serializable {
         this.idiomaFrom=idiomaFrom;
         diccionari1=new HashMap<Paraula,ArrayList<Paraula>>();
         diccionari2=new HashMap<Paraula,ArrayList<Paraula>>();
+    }
+
+    public boolean hiHaTraduccions(){
+
+        Iterator<Map.Entry<Paraula,ArrayList<Paraula>>> it = diccionari1.entrySet().iterator();
+
+        while (it.hasNext()) {
+
+            Map.Entry<Paraula,ArrayList<Paraula>> pair = it.next();
+
+            if(!pair.getValue().isEmpty())
+                return true;
+            else
+                return false;
+        }
+        return false;
     }
 
     public void connectarParaules(Paraula par1, Paraula par2){

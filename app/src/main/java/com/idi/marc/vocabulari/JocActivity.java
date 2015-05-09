@@ -15,6 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 
 public class JocActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
@@ -77,7 +82,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
     public void setSpinnerIdioma1(){
 
         spinnerIdioma1 = (Spinner) findViewById(R.id.spinnerIdioma1);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomes());
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getIdiomesAmbParaules());
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerIdioma1.setAdapter(adaptador);
 
@@ -93,7 +98,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
     public void setSpinnerIdioma2(){
 
         spinnerIdioma2 = (Spinner) findViewById(R.id.spinnerIdioma2);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomesMenysPropi(idioma1.getId()));
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomesAmbTraduccio(idioma1.getId()));
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerIdioma2.setAdapter(adaptador);
     }
@@ -161,20 +166,22 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
 
         int i=0;
         String showable=new String();
-        StringBuilder builder = new StringBuilder();
 
-       /* for(i=0;i<trad.getModes().size();i++){
-            showable+="Mode: "+trad.getModes().get(i) + " Punts: "+trad.getPunts().get(i).toString()+" Errors: "+trad.getErrors().get(i).toString()+"\n";
-        }*/
+        TreeMap<Integer,String> mapa=new TreeMap<Integer,String>();
+        String aux;
 
-                /*for (String details : trad.getModes()) {
-                    builder.append("Mode"+details + " Punts: "+trad.getPunts().get(i).toString()+" Errors: "+trad.getErrors().get(i).toString()+"\n");
-                    i++;
-                }
-                showable=builder.toString();*/
-        Log.i(TAG, "Mode  "+trad.mode);
-        Log.i(TAG, "punts "+trad.getPunts().get(0).toString());
-        Log.i(TAG, "errors "+trad.getErrors().get(0).toString());
+        for(i=0;i<Traduccio.modesStatic.size();i++){
+            aux=" Errors: "+Traduccio.erradesModeStatic.get(i).toString()+" Mode: "+Traduccio.modesStatic.get(i)+"\n";
+            mapa.put(Traduccio.puntuacionsModeStatic.get(i),aux);
+        }
+
+        NavigableMap nav=mapa.descendingMap();
+        Iterator<Map.Entry<Integer,String>> it = nav.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer,String> pair = it.next();
+            showable+="Punts: "+pair.getKey().toString()+pair.getValue();
+        }
+
                 finestraAvis(showable);
     }
 

@@ -14,15 +14,10 @@ public class Traduccio implements Serializable {
     private static final long serialVersionUID = 1L;
     private static HashMap<Idioma[],Diccionari> diccionaris;
     private static HashMap<String,Idioma> idiomes;
-    private ArrayList<Integer> puntuacionsMode;
-
-    private ArrayList<Integer> erradesMode;
 
     public static  ArrayList<String> modesStatic;
     public static ArrayList<Integer> puntuacionsModeStatic;
     public static ArrayList<Integer> erradesModeStatic;
-
-    private ArrayList<String> modes;
 
     public static String idioma1Joc;
     public static String idioma2Joc;
@@ -34,9 +29,9 @@ public class Traduccio implements Serializable {
     public Traduccio(){
         idiomes=new HashMap<String,Idioma>();
         diccionaris= new HashMap<Idioma[],Diccionari>();
-        puntuacionsMode=new ArrayList<Integer>();
-        erradesMode=new ArrayList<Integer>();
-        modes= new ArrayList<String>();
+        puntuacionsModeStatic=new ArrayList<Integer>();
+        erradesModeStatic=new ArrayList<Integer>();
+        modesStatic= new ArrayList<String>();
     }
 
     public void nouIdioma(String nomIdioma)throws Exception{
@@ -253,6 +248,21 @@ public class Traduccio implements Serializable {
         return dicc;
     }
 
+    public ArrayList<String> getLlistaIdiomesAmbTraduccio(String idioma){
+
+        ArrayList<String> dicc=new ArrayList<String>();
+
+        Iterator<Entry<String, Idioma>> it = idiomes.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String,Idioma> pair = (Entry<String,Idioma>)it.next();
+            if(!pair.getValue().equals(getIdioma(idioma))) {
+                if(getDiccionari(pair.getKey(),idioma).hiHaTraduccions())
+                    dicc.add(pair.getValue().getId());
+            }
+         }
+        return dicc;
+    }
+
     public ArrayList<String> getLlistaIdiomesMenysPropi(String idioma){
         ArrayList<String> dicc=new ArrayList<String>();
 
@@ -290,15 +300,15 @@ public class Traduccio implements Serializable {
         return jocActual.rebreParaula(gottenWord);
     }
 
-    public Integer getPuntuacio(){
+   /* public Integer getPuntuacio(){
         return jocActual.getPuntuacio();
     }
 
     public Integer getErrades(){
         return jocActual.getErrades();
-    }
+    }*/
 
-    public void acabarJoc(Integer punts, Integer errors){
+    /*public void acabarJoc(Integer punts, Integer errors){
 
         puntuacionsMode.add(punts);
         erradesMode.add(errors);
@@ -308,9 +318,9 @@ public class Traduccio implements Serializable {
         Log.i("MyActivity", "punts  " + erradesMode.get(0).toString());
         Log.i("MyActivity", "errors  " + modes.get(0).toString());
 
-    }
+    }*/
 
-    public ArrayList<String> getModes(){
+    /*public ArrayList<String> getModes(){
         return modes;
     }
 
@@ -322,7 +332,7 @@ public class Traduccio implements Serializable {
 
     public ArrayList<Integer> getErrors(){
         return erradesMode;
-    }
+    }*/
 
 
     public ArrayList<String> getIdiomesAmbParaules(){

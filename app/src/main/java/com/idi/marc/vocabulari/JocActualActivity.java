@@ -142,10 +142,9 @@ public class JocActualActivity extends ActionBarActivity {
         builder1.setPositiveButton("OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.i(TAG, "punts "+encerts.toString());
-                        Log.i(TAG, "errors  "+errors.toString());
-                        trad.acabarJoc(encerts, errors);
-                        dialog.cancel();
+                        Traduccio.modesStatic.add(Traduccio.mode);
+                        Traduccio.erradesModeStatic.add(errors);
+                        Traduccio.puntuacionsModeStatic.add(encerts);
                         finish();
                     }
                 });
@@ -166,7 +165,7 @@ public class JocActualActivity extends ActionBarActivity {
         @Override
         public void onFinish()
         {
-            temps.setText(String.valueOf(startTime));
+            temps.setText("0");
             finestraAvis("Joc acabat. Encerts: "+encerts.toString()+"Errors: "+errors.toString());
 
         }

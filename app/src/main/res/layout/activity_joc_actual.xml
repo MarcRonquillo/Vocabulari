@@ -84,7 +84,8 @@
         android:textSize="20dp"
         android:textColor="#ffffffff"
         android:layout_marginLeft="140dp"
-        android:layout_marginTop="260dp" />
+        android:layout_marginTop="260dp"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/traduccio"
