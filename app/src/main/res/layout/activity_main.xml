@@ -67,14 +67,15 @@
         android:layout_height="50dp"
         android:id="@+id/imageButton"
         android:layout_gravity="right|bottom"
-        android:background="@drawable/roda"
         android:baselineAlignBottom="true"
         android:layout_marginBottom="40dp"
         android:alpha="1"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_marginEnd="40dp"
-        android:clickable="true" />
+        android:clickable="true"
+        android:onClick="onClickHelp"
+        android:background="@drawable/interrogant" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -100,5 +101,14 @@
             android:focusable="true"
             android:onClick="onClickJoc" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="49dp"
+        android:layout_height="50dp"
+        android:id="@+id/botoAbout"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="390dp"
+        android:onClick="onClickAbout"
+        android:background="@drawable/info" />
 
 </RelativeLayout>

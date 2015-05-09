@@ -208,6 +208,27 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void onClickHelp(View view){
+        String help="Aplicació per jugar amb idiomes, paraules i les seves traduccions.\n" +
+                "A la primera pantalla l'usuari he de triar entre editar els idiomes i les paraules o començar a jugar. Per defecte vénen dos idiomes i unes quantes paraules.\n" +
+                "Si l'usuari tria editar, l'aplicació el portarà a una nova pantalla. En aquesta, hi ha uns desplegables per triar idiomes, paraules i traduccions. Uns botons ajuden a gestionar tota aquesta informació." +
+                "Es poden afegir i esborrar idiomes, paraules i traduccions entre paraules. A mésm es poden visualitzar totes les traduccions assignades a una paraula.\n" +
+                "Tornant a la pantalla principal, si l'usuari tria Jugar! l'aplicació el portarà a una nova pantalla per seleccionar el tipus de joc. Hi ha dos desplegables, l'idioma de partida és aquell del qual s'hauran de traduïr les paraules a l'altre idioma triat a l'altre desplegable. No es pot jugar amb idiomes que no tenen paraules o traduccions associades." +
+                "A mode es poden triar 3 modes: 10 paraules, 20 paraules i 30 segons. Els dos primers són un mode de joc que farà acabar aquest quan s'hagi arribat a la xifra de paraules traduïdes. El mode 30 segons deixa jugar a l'usuari durant 30 segons." +
+                "Es pot trobar el botó estadístiques, que permet visualitzar ordenades de millor a pitjor les puntuacions obtingudes als jocs. El botó Start permet començar el joc.\n" +
+                "Al joc, l'usuari rep paraules aleatòries de l'idioma de partida triat i ha d'escriure la seva traducció a l'espai 'traducció'. Apretant el botó OK es comprova la resposta donada i es rep la següent paraula. Una resposta correcte és un punt. Les puntuacions i errors de la aprtida es visualitzen a la part superior de la pantalla. Si el mode triat es de 30 segons," +
+                "es veu el temps que queda perquè la partida acabi. Quan la partida acaba, l'usuari rep un missatge que l'informa d'això, de la puntuació realitzada i el retorna a la pantalla anterior.";
+        finestraAvis(help);
+
+
+    }
+
+    public void onClickAbout(View view){
+
+        String about="ABOUT\nAplicació Aprenent vocabulari v1.0"+"\n"+"Autor: Marc Ronquillo González. 2015"+"\n"+"Android 4.3.1 API 18"+"\n"+"Interacció i disseny d'interfícies";
+        finestraAvis(about);
+    }
+
     /*
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();

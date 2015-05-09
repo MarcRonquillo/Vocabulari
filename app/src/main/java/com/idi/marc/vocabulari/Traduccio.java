@@ -300,40 +300,6 @@ public class Traduccio implements Serializable {
         return jocActual.rebreParaula(gottenWord);
     }
 
-   /* public Integer getPuntuacio(){
-        return jocActual.getPuntuacio();
-    }
-
-    public Integer getErrades(){
-        return jocActual.getErrades();
-    }*/
-
-    /*public void acabarJoc(Integer punts, Integer errors){
-
-        puntuacionsMode.add(punts);
-        erradesMode.add(errors);
-        modes.add(mode);
-
-        Log.i("MyActivity", "Mode  " + puntuacionsMode.get(0).toString());
-        Log.i("MyActivity", "punts  " + erradesMode.get(0).toString());
-        Log.i("MyActivity", "errors  " + modes.get(0).toString());
-
-    }*/
-
-    /*public ArrayList<String> getModes(){
-        return modes;
-    }
-
-
-    public ArrayList<Integer> getPunts(){
-        return puntuacionsMode;
-    }
-
-
-    public ArrayList<Integer> getErrors(){
-        return erradesMode;
-    }*/
-
 
     public ArrayList<String> getIdiomesAmbParaules(){
 
