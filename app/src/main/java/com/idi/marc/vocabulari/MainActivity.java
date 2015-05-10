@@ -43,117 +43,75 @@ public class MainActivity extends ActionBarActivity {
     //L'extra message hauria de ser un objecte de tipus Traduccio que fos new la primera execució
     //i que les següents vingués d'un fitxer per conservar la persistència
 
-    public void inicialitzar(){
-/*
-       // String test=this.getFilesDir().getAbsolutePath();
-        File f = new File(myContext.getFilesDir().getPath()+"/"+"bd.dat");
-        if(f.exists() && !f.isDirectory()) {
-            //Llegir l'arxiu i assignar-lo a trad
-            Log.i(TAG, "fitxer trobat, important");
-        importar(pathBD);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        myContext=this;
 
+        inicialitzar();
 
+    }
+
+   /* @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        SharedPreferences settings2 = getSharedPreferences("traduccioPref2",0);
+        SharedPreferences.Editor editor = settings2.edit();
+        //editor.clear();
+        //editor.commit();
+        //String hola="hola";
+        Traduccio tradu=new Traduccio();
+        try {
+            tradu.nouIdioma("suajili");
         }
-        else{
-            Log.i(TAG, "fitxer no trobat, generant nou bd.dat");
-            Log.i(TAG, this.getFilesDir().getAbsolutePath()+"/"+"bd.dat");
-            Log.i(TAG, this.getFilesDir().getPath()+"/"+"bd.dat");
+        catch(Exception e){
+            finestraAvis(e.getMessage());
+        }
 
-            trad = new Traduccio();
-            try {
-                trad.inicialitzar();
-            }
-            catch (Exception e){
-                finestraAvis(e.getMessage());
-            }
+        editor.clear();
+        String hhh=objectToString(tradu);
+        editor.putString("traduccio",hhh);
 
-        }*/
+        // Commit the edits!
+        editor.commit();
+
+        Log.i(TAG,"ondestroy         "+tradu.getLlistaIdiomes().get(0));
+
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        //exportar(pathBD);
+
+        /*tradString=objectToString(trad);
+        Log.i(TAG, tradString);
 
         SharedPreferences settings = getSharedPreferences("traduccioPref",0);
-        tradString = settings.getString("traduccio","null");
-        trad=(Traduccio)stringToObject(tradString);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
+        editor.commit();/*
+        editor.putString("traduccio",tradString);
 
-        Log.i(TAG, tradString);
-        //Log.i(TAG, trad.getIdioma("catala").getId());
-
-        if(trad==null) {
-            Log.i(TAG, "trad es null");
-            trad = new Traduccio();
-            try {
-                trad.inicialitzar();
-            } catch (Exception e) {
-                finestraAvis(e.getMessage());
-            }
+        // Commit the edits!
+        editor.commit();
 
 
-            SharedPreferences settings2 = getSharedPreferences("traduccioPref2",0);
-            SharedPreferences.Editor editor = settings2.edit();
-            //editor.clear();
-            //editor.commit();
-            String hola="hola";
-            editor.putString("hola",hola);
-
-            // Commit the edits!
-            editor.commit();
-
-            SharedPreferences settings3 = getSharedPreferences("traduccioPref2",0);
-            String hola2 = settings.getString("hola","no");
-            Log.i(TAG,hola2);
-        }
-
-    }
 
 
-    public void importar(String fitxer) {
+    }*/
 
+    public void inicialitzar(){
+
+       trad=new Traduccio();
         try {
-            /*ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fitxer));
-            Traduccio aux = (Traduccio) ois.readObject();
-            trad=aux;
-           Log.d("Vocabulari",trad.getParaula("casa", "catala").getId());
-            Log.d("Vocabulari","Hola");*/
-
-            FileInputStream fis = myContext.openFileInput(fitxer);
-            ObjectInputStream is = new ObjectInputStream(fis);
-            trad = (Traduccio) is.readObject();
-            is.close();
-            fis.close();
-
-
-
+            trad.inicialitzar();
         }
-        catch (Exception e){
-            String avis=getStackTrace(e);
-            finestraAvis(avis);
-        }
-
-    }
-
-   public void exportar(String fitxer)  {
-
-        try {
-            /*ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fitxer));
-            oos.writeObject(trad);
-            oos.close();*/
-            eliminarFitxer();
-            FileOutputStream fos = myContext.openFileOutput(fitxer, myContext.MODE_PRIVATE);
-            ObjectOutputStream os = new ObjectOutputStream(fos);
-            os.writeObject(trad);
-            os.flush();
-            os.close();
-            fos.close();
-        }
-        catch (Exception e){
-            String avis=getStackTrace(e);
-            finestraAvis(avis);
-        }
-    }
-
-    public void eliminarFitxer(){
-        File file=new File(myContext.getFilesDir().getPath()+"/"+"bd.dat");
-        if(file.exists()) {
-            Log.i(TAG, "esborrant arxiu");
-            file.delete();
+        catch(Exception e){
+            finestraAvis(getStackTrace(e));
         }
     }
 
@@ -166,10 +124,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void activityEditar(View view) {
         Intent intent = new Intent(this, EditarActivity.class);
-        //El que s'ha de passar amb putExtra és l'objecte Traduccio. És un key-value, com un hashMap
-        /*EditText editText = (EditText) findViewById(R.id.nomApp);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);*/
+
         intent.putExtra("trad",trad);
         startActivity(intent);
     }
@@ -187,54 +142,6 @@ public class MainActivity extends ActionBarActivity {
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
-
-    }
-
-    @Override
-    protected void onPause(){
-
-        super.onPause();
-        //exportar(pathBD);
-
-        tradString=objectToString(trad);
-        Log.i(TAG, tradString);
-
-        SharedPreferences settings = getSharedPreferences("traduccioPref",0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.clear();
-        editor.commit();/*
-        editor.putString("traduccio",tradString);
-
-        // Commit the edits!
-        editor.commit();
-*/
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        myContext=this;
-        //pathBD=myContext.getFilesDir().getAbsolutePath()+"/bd.dat";
-        pathBD="bd.dat";
-        //inicialitzar();
-
-        SharedPreferences settings2 = getSharedPreferences("traduccioPref2",0);
-        SharedPreferences.Editor editor = settings2.edit();
-        //editor.clear();
-        //editor.commit();
-        //String hola="hola";
-        Integer hola=2;
-        String hhh=objectToString(hola);
-        editor.putString("hola",hhh);
-
-        // Commit the edits!
-        editor.commit();
-
-        SharedPreferences settings3 = getSharedPreferences("traduccioPref2",0);
-        String hola2 = settings3.getString("hola","no");
-        Integer hola3=(Integer)stringToObject(hola2);
-        Log.i(TAG,hola3.toString());
 
     }
 
@@ -290,82 +197,5 @@ public class MainActivity extends ActionBarActivity {
         finestraAvis(about);
     }
 
-    public  String objectToString(Serializable object) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            new ObjectOutputStream(out).writeObject(object);
-            byte[] data = out.toByteArray();
-            out.close();
 
-            out = new ByteArrayOutputStream();
-            Base64OutputStream b64 = new Base64OutputStream(out,0);
-            b64.write(data);
-            b64.close();
-            out.close();
-
-            return new String(out.toByteArray());
-        } catch (Exception e) {
-            finestraAvis(e.getMessage());
-
-        }
-        return null;
-    }
-
-    public  Object stringToObject(String encodedObject) {
-        try {
-            return new ObjectInputStream(new Base64InputStream(
-                    new ByteArrayInputStream(encodedObject.getBytes()),0)).readObject();
-        } catch (Exception e) {
-            finestraAvis(e.getMessage());
-        }
-        return null;
-    }
-
-    /*
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    public void WriteBtn() {
-        // add-write text into file
-        try {
-            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
-            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
-            outputWriter.write("prova");
-            outputWriter.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Read text from file
-    public void ReadBtn() {
-        //reading text from file
-        try {
-            FileInputStream fileIn=openFileInput("mytextfile.txt");
-            InputStreamReader InputRead= new InputStreamReader(fileIn);
-
-            char[] inputBuffer= new char[256];
-            String s="";
-            int charRead;
-
-            while ((charRead=InputRead.read(inputBuffer))>0) {
-                // char to string conversion
-                String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                s +=readstring;
-            }
-            InputRead.close();
-            Log.i(TAG, s);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-*/
 }
