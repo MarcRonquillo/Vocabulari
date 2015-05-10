@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.idi.marc.vocabulari.JocActivity"
-    android:background="@drawable/background1_llibres">
+    android:background="@drawable/llibres">
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,16 +85,6 @@
             android:layout_marginLeft="110dp"
             android:layout_marginRight="50dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start"
-            android:id="@+id/botoStart"
-            android:layout_marginTop="66dp"
-            android:layout_marginLeft="200dp"
-            android:textSize="15dp"
-            android:onClick="onClickStart"
-            android:clickable="true" />
     </LinearLayout>
 
     <LinearLayout
@@ -114,5 +104,17 @@
             android:textSize="15dp"
             android:onClick="onClickEstadistiques"
             android:clickable="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:id="@+id/botoStart"
+            android:textSize="15dp"
+            android:onClick="onClickStart"
+            android:clickable="true"
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="25dp" />
     </LinearLayout>
 </RelativeLayout>

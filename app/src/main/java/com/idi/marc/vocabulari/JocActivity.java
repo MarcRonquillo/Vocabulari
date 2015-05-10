@@ -34,6 +34,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
     private Idioma idioma2;
     private String mode;
     private ArrayList<String> modes;
+    private boolean llistaIdiomesBuida;
     private static final String TAG = "MyActivity";
 
     @Override
@@ -101,6 +102,11 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getLlistaIdiomesAmbTraduccio(idioma1.getId()));
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerIdioma2.setAdapter(adaptador);
+
+        if(trad.getLlistaIdiomesAmbTraduccio(idioma1.getId()).isEmpty())
+            llistaIdiomesBuida=true;
+        else
+            llistaIdiomesBuida=false;
     }
 
     public void addListenerOnSpinnerItemSelectionIdioma2() {
@@ -152,7 +158,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
 
     public void onClickStart(View view){
 
-        if((idioma1!=null)&&(idioma2!=null)) {
+        if((idioma1!=null)&&(idioma2!=null)&&(!llistaIdiomesBuida)) {
             Traduccio.idioma1Joc=idioma1.getId();
             Traduccio.idioma2Joc=idioma2.getId();
             Traduccio.mode=mode;

@@ -2,9 +2,12 @@ package com.idi.marc.vocabulari;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64InputStream;
+import android.util.Base64OutputStream;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +15,8 @@ import android.view.View;
 import android.content.Intent;
 import android.app.AlertDialog;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,6 +27,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.io.StringWriter;
 
 import android.content.Context;
@@ -33,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
     private String pathBD;
     static Context myContext;
     private static final String TAG = "MyActivity";
+    private String tradString;
     //L'extra message hauria de ser un objecte de tipus Traduccio que fos new la primera execució
     //i que les següents vingués d'un fitxer per conservar la persistència
 
@@ -61,13 +68,39 @@ public class MainActivity extends ActionBarActivity {
             }
 
         }*/
-        trad = new Traduccio();
-        try {
-            trad.inicialitzar();
+
+        SharedPreferences settings = getSharedPreferences("traduccioPref",0);
+        tradString = settings.getString("traduccio","null");
+        trad=(Traduccio)stringToObject(tradString);
+
+        Log.i(TAG, tradString);
+        //Log.i(TAG, trad.getIdioma("catala").getId());
+
+        if(trad==null) {
+            Log.i(TAG, "trad es null");
+            trad = new Traduccio();
+            try {
+                trad.inicialitzar();
+            } catch (Exception e) {
+                finestraAvis(e.getMessage());
+            }
+
+
+            SharedPreferences settings2 = getSharedPreferences("traduccioPref2",0);
+            SharedPreferences.Editor editor = settings2.edit();
+            //editor.clear();
+            //editor.commit();
+            String hola="hola";
+            editor.putString("hola",hola);
+
+            // Commit the edits!
+            editor.commit();
+
+            SharedPreferences settings3 = getSharedPreferences("traduccioPref2",0);
+            String hola2 = settings.getString("hola","no");
+            Log.i(TAG,hola2);
         }
-        catch (Exception e){
-            finestraAvis(e.getMessage());
-        }
+
     }
 
 
@@ -162,8 +195,19 @@ public class MainActivity extends ActionBarActivity {
 
         super.onPause();
         //exportar(pathBD);
-        Log.i(TAG, "guardant");
 
+        tradString=objectToString(trad);
+        Log.i(TAG, tradString);
+
+        SharedPreferences settings = getSharedPreferences("traduccioPref",0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
+        editor.commit();/*
+        editor.putString("traduccio",tradString);
+
+        // Commit the edits!
+        editor.commit();
+*/
     }
 
     @Override
@@ -173,7 +217,24 @@ public class MainActivity extends ActionBarActivity {
         myContext=this;
         //pathBD=myContext.getFilesDir().getAbsolutePath()+"/bd.dat";
         pathBD="bd.dat";
-        inicialitzar();
+        //inicialitzar();
+
+        SharedPreferences settings2 = getSharedPreferences("traduccioPref2",0);
+        SharedPreferences.Editor editor = settings2.edit();
+        //editor.clear();
+        //editor.commit();
+        //String hola="hola";
+        Integer hola=2;
+        String hhh=objectToString(hola);
+        editor.putString("hola",hhh);
+
+        // Commit the edits!
+        editor.commit();
+
+        SharedPreferences settings3 = getSharedPreferences("traduccioPref2",0);
+        String hola2 = settings3.getString("hola","no");
+        Integer hola3=(Integer)stringToObject(hola2);
+        Log.i(TAG,hola3.toString());
 
     }
 
@@ -209,15 +270,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onClickHelp(View view){
-        String help="Aplicació per jugar amb idiomes, paraules i les seves traduccions.\n" +
-                "A la primera pantalla l'usuari he de triar entre editar els idiomes i les paraules o començar a jugar. Per defecte vénen dos idiomes i unes quantes paraules.\n" +
+        String help="Aplicació per jugar amb idiomes, paraules i les seves traduccions.\n\n" +
+                "A la primera pantalla l'usuari ha de triar entre editar els idiomes i les paraules o començar a jugar. Per defecte vénen dos idiomes i unes quantes paraules.\n\n" +
                 "Si l'usuari tria editar, l'aplicació el portarà a una nova pantalla. En aquesta, hi ha uns desplegables per triar idiomes, paraules i traduccions. Uns botons ajuden a gestionar tota aquesta informació." +
-                "Es poden afegir i esborrar idiomes, paraules i traduccions entre paraules. A mésm es poden visualitzar totes les traduccions assignades a una paraula.\n" +
+                "Es poden afegir i esborrar idiomes, paraules i traduccions entre paraules. A mésm es poden visualitzar totes les traduccions assignades a una paraula.\n\n" +
                 "Tornant a la pantalla principal, si l'usuari tria Jugar! l'aplicació el portarà a una nova pantalla per seleccionar el tipus de joc. Hi ha dos desplegables, l'idioma de partida és aquell del qual s'hauran de traduïr les paraules a l'altre idioma triat a l'altre desplegable. No es pot jugar amb idiomes que no tenen paraules o traduccions associades." +
                 "A mode es poden triar 3 modes: 10 paraules, 20 paraules i 30 segons. Els dos primers són un mode de joc que farà acabar aquest quan s'hagi arribat a la xifra de paraules traduïdes. El mode 30 segons deixa jugar a l'usuari durant 30 segons." +
-                "Es pot trobar el botó estadístiques, que permet visualitzar ordenades de millor a pitjor les puntuacions obtingudes als jocs. El botó Start permet començar el joc.\n" +
-                "Al joc, l'usuari rep paraules aleatòries de l'idioma de partida triat i ha d'escriure la seva traducció a l'espai 'traducció'. Apretant el botó OK es comprova la resposta donada i es rep la següent paraula. Una resposta correcte és un punt. Les puntuacions i errors de la aprtida es visualitzen a la part superior de la pantalla. Si el mode triat es de 30 segons," +
-                "es veu el temps que queda perquè la partida acabi. Quan la partida acaba, l'usuari rep un missatge que l'informa d'això, de la puntuació realitzada i el retorna a la pantalla anterior.";
+                "A la part inferior esquerra es troba el botó estadístiques, que permet visualitzar ordenades de millor a pitjor les puntuacions obtingudes als jocs. El botó Start permet començar el joc.\n\n" +
+                "Al joc, l'usuari rep paraules aleatòries de l'idioma de partida triat i ha d'escriure la seva traducció a l'espai 'traducció'. Apretant el botó OK es comprova la resposta donada i es rep la següent paraula. Una resposta correcte és un punt. Les puntuacions i errors de la partida es visualitzen a la part superior de la pantalla. Si el mode triat és de 30 segons," +
+                "es veu el temps que queda perquè la partida acabi. Quan la partida acaba, l'usuari rep un missatge que l'informa de la puntuació obtinguda i el retorna a la pantalla anterior.";
         finestraAvis(help);
 
 
@@ -227,6 +288,37 @@ public class MainActivity extends ActionBarActivity {
 
         String about="ABOUT\nAplicació Aprenent vocabulari v1.0"+"\n"+"Autor: Marc Ronquillo González. 2015"+"\n"+"Android 4.3.1 API 18"+"\n"+"Interacció i disseny d'interfícies";
         finestraAvis(about);
+    }
+
+    public  String objectToString(Serializable object) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            new ObjectOutputStream(out).writeObject(object);
+            byte[] data = out.toByteArray();
+            out.close();
+
+            out = new ByteArrayOutputStream();
+            Base64OutputStream b64 = new Base64OutputStream(out,0);
+            b64.write(data);
+            b64.close();
+            out.close();
+
+            return new String(out.toByteArray());
+        } catch (Exception e) {
+            finestraAvis(e.getMessage());
+
+        }
+        return null;
+    }
+
+    public  Object stringToObject(String encodedObject) {
+        try {
+            return new ObjectInputStream(new Base64InputStream(
+                    new ByteArrayInputStream(encodedObject.getBytes()),0)).readObject();
+        } catch (Exception e) {
+            finestraAvis(e.getMessage());
+        }
+        return null;
     }
 
     /*

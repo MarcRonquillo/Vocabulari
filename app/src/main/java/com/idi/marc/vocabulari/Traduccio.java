@@ -322,13 +322,23 @@ public class Traduccio implements Serializable {
         String forquilla="forquilla";
         String cadira="cadira";
         String verd="verd";
+        String llapis="llapis";
+        String aigua="aigua";
+        String quadrat="quadrat";
+        String pencil="pencil";
+        String water="water";
+        String sky="sky";
         String house="house";
         String car="car";
         String fork="fork";
         String chair="chair";
         String green="green";
+        String coche="coche";
+        String tenedor="tenedor";
+        String cielo="cielo";
         String catala="català";
         String angles="anglès";
+        String castella="castellà";
 
 
 
@@ -345,11 +355,22 @@ public class Traduccio implements Serializable {
             afegirParaula(fork,angles);
             afegirParaula(chair,angles);
             afegirParaula(green,angles);
+            afegirParaula(sky,angles);
+            nouIdioma(castella);
+            afegirParaula(coche,castella);
+            afegirParaula(tenedor,castella);
+            afegirParaula(cielo,castella);
+
 
         connectarParaules(casa,catala,house,angles);
         connectarParaules(cotxe,catala,car,angles);
         connectarParaules(forquilla,catala,fork,angles);
         connectarParaules(cadira,catala,chair,angles);
         connectarParaules(verd,catala,green,angles);
+        connectarParaules(coche,castella,cotxe,catala);
+        connectarParaules(coche,castella,car,angles);
+        connectarParaules(tenedor,castella,forquilla,catala);
+        connectarParaules(tenedor,castella,fork,angles);
+        connectarParaules(cielo,castella,sky,angles);
     }
 }

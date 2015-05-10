@@ -166,7 +166,7 @@ public class JocActualActivity extends ActionBarActivity {
         public void onFinish()
         {
             temps.setText("0");
-            finestraAvis("Joc acabat. Encerts: "+encerts.toString()+"Errors: "+errors.toString());
+            finestraAvis("Joc acabat. Encerts: "+encerts.toString()+" Errors: "+errors.toString());
 
         }
 
