@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 
     private Traduccio trad;
     static Context myContext;
+    private boolean iniciat=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +31,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         myContext=this;
 
-        inicialitzar();
+        if(!iniciat)
+            inicialitzar();
+
+        iniciat=true;
 
     }
-
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -43,6 +46,7 @@ public class MainActivity extends Activity {
 
 
     public void exportar(){
+        eliminarFitxer();
         try {
             FileOutputStream fos = myContext.openFileOutput("bd.dat", myContext.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
@@ -65,6 +69,13 @@ public class MainActivity extends Activity {
         }
         catch(Exception e){
             finestraAvis(getStackTrace(e));
+        }
+    }
+
+    public void eliminarFitxer(){
+        File f = new File(getFilesDir().getPath()+"/bd.dat");
+        if(f.exists() && !f.isDirectory()) {
+            f.delete();
         }
     }
 
