@@ -1,5 +1,6 @@
 package com.idi.marc.vocabulari;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +23,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 
 
-public class EditarActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+public class EditarActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     Intent intentPrevi;
     Traduccio trad;
@@ -209,15 +210,14 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
                     addListenerOnSpinnerSelectionParaula();
                 }
 
-                /////////////////////////////////////////
+
                 if(idiomaActual.getLlistaParaules().isEmpty()){
                     TextView myTextView = (TextView) findViewById(R.id.traduccionsText);
                         myTextView.setText("");
                     setSpinnerParaula();
                 }
 
-                ///////
-                //Log.i(TAG, "idioma=" + idiomaActual.getId());
+
                 setSpinnerTraduccions();
                 addListenerOnSpinnerSelectionTraduccio();
                 break;
@@ -228,7 +228,6 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
                     setSpinnerTraduccions();
                     addListenerOnSpinnerSelectionTraduccio();
                 }
-                //actualitzarSpinners();
                 break;
 
             case R.id.spinnerTraduccions:
@@ -257,17 +256,15 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
                 addListenerOnSpinnerSelectionTrad();
                 setSpinnerEsborrarTraduccions();
                 addListenerOnSpinnerSelectionBorrar();
-                //actualitzarSpinners();
                 break;
             case R.id.spinnerAfegirTrad:
                 if((idiomaOut!=null)){
                     if((!trad.getLlistaIdiomes().isEmpty())&& (trad.getLlistaIdiomes().size()>1) && (!idiomaOut.getLlistaParaules().isEmpty())) {
 
                     paraulaAAfegir = trad.getParaula((String) parent.getItemAtPosition(pos), idiomaOut.getId());
+                    }
                 }
-                }
-                   /* trad.connectarParaules(paraulaActual.getId(),idiomaActual.getId(),(String) parent.getItemAtPosition(pos),idiomaOut.getId());
-                    setSpinnerIdioma();*/
+
 
                 break;
             case R.id.spinnerEsborrarTrad:
@@ -280,9 +277,6 @@ public class EditarActivity extends ActionBarActivity implements AdapterView.OnI
                     }
                 }
 
-                    /*trad.removeTraduccio(paraulaActual.getId(),idiomaActual.getId(),(String) parent.getItemAtPosition(pos),idiomaOut.getId());
-                    setSpinnerIdioma();*/
-
                 break;
         }
 
@@ -292,7 +286,6 @@ public void onClickEliminarTraduccio(View view){
     try {
         if (!spinnerBuitElimTrad) {
             trad.removeTraduccio(paraulaActual.getId(), idiomaActual.getId(), paraulaAEsborrar.getId(), idiomaOut.getId());
-            //actualitzarSpinners();
             setSpinnerEsborrarTraduccions();
             setSpinnerTraduccions();
         }
@@ -307,7 +300,6 @@ public void onClickAfegirTraduccio(View view){
     try {
         if (!spinnerBuitAfegirTrad) {
             trad.connectarParaules(paraulaActual.getId(), idiomaActual.getId(), paraulaAAfegir.getId(), idiomaOut.getId());
-            //actualitzarSpinners();
             setSpinnerEsborrarTraduccions();
             setSpinnerTraduccions();
         }
@@ -337,7 +329,6 @@ public void finestraIntrotext (int i) {
 
         alert.setMessage("Nou idioma:");
 
-        // Set an EditText view to get user input
         final EditText input = new EditText(this);
         alert.setView(input);
 
@@ -353,13 +344,13 @@ public void finestraIntrotext (int i) {
                     finestraAvis(avis);
                 }
 
-                // Do something with value!
+
             }
         });
 
         alert.setNegativeButton("Cancel·lar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                // Canceled.
+                // Cancelar.
             }
         });
             alert.show();
@@ -368,7 +359,6 @@ public void finestraIntrotext (int i) {
         //Nova paraula
             alert.setMessage("Nova paraula:");
 
-            // Set an EditText view to get user input
             final EditText input1 = new EditText(this);
             alert.setView(input1);
 
@@ -377,7 +367,6 @@ public void finestraIntrotext (int i) {
                     String value = input1.getText().toString();
                     try {
                         trad.afegirParaula(value,idiomaActual.getId());
-                        //actualitzarSpinners();
                         setSpinnerParaula();
                         setSpinnerTraduccions();
                         setSpinnerAfegirTraduccions();
@@ -388,13 +377,12 @@ public void finestraIntrotext (int i) {
                         finestraAvis(avis);
                     }
 
-                    // Do something with value!
                 }
             });
 
             alert.setNegativeButton("Cancel·lar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    // Canceled.
+                    // Cancelar.
                 }
             });
             alert.show();
@@ -406,15 +394,10 @@ public void finestraIntrotext (int i) {
 }
 public void actualitzarSpinners(){
     setSpinnerIdioma();
-    //addListenerOnSpinnerItemSelectionIdioma();
     setSpinnerParaula();
-    //addListenerOnSpinnerSelectionParaula();
     setSpinnerTraduccions();
-    //addListenerOnSpinnerSelectionTraduccio();
     setSpinnerEsborrarTraduccions();
-    //addListenerOnSpinnerSelectionBorrar();
     setSpinnerAfegirTraduccions();
-    //addListenerOnSpinnerSelectionTrad();
 }
 public void finestraOkCancel(int i){
 
@@ -508,6 +491,6 @@ public void finestraOkCancel(int i){
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
+
     }
 }

@@ -1,47 +1,28 @@
 package com.idi.marc.vocabulari;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Base64InputStream;
-import android.util.Base64OutputStream;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.app.AlertDialog;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.io.StringWriter;
 
-import android.content.Context;
 
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private Traduccio trad;
-    private String pathBD;
     static Context myContext;
-    private static final String TAG = "MyActivity";
-    private String tradString;
-    //L'extra message hauria de ser un objecte de tipus Traduccio que fos new la primera execució
-    //i que les següents vingués d'un fitxer per conservar la persistència
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,66 +34,56 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-   /* @Override
+    @Override
     protected void onDestroy(){
         super.onDestroy();
 
-        SharedPreferences settings2 = getSharedPreferences("traduccioPref2",0);
-        SharedPreferences.Editor editor = settings2.edit();
-        //editor.clear();
-        //editor.commit();
-        //String hola="hola";
-        Traduccio tradu=new Traduccio();
-        try {
-            tradu.nouIdioma("suajili");
-        }
-        catch(Exception e){
-            finestraAvis(e.getMessage());
-        }
-
-        editor.clear();
-        String hhh=objectToString(tradu);
-        editor.putString("traduccio",hhh);
-
-        // Commit the edits!
-        editor.commit();
-
-        Log.i(TAG,"ondestroy         "+tradu.getLlistaIdiomes().get(0));
-
+        exportar();
     }
 
-    @Override
-    protected void onPause() {
 
-        super.onPause();
-        //exportar(pathBD);
-
-        /*tradString=objectToString(trad);
-        Log.i(TAG, tradString);
-
-        SharedPreferences settings = getSharedPreferences("traduccioPref",0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.clear();
-        editor.commit();/*
-        editor.putString("traduccio",tradString);
-
-        // Commit the edits!
-        editor.commit();
-
-
-
-
-    }*/
-
-    public void inicialitzar(){
-
-       trad=new Traduccio();
+    public void exportar(){
         try {
-            trad.inicialitzar();
+            FileOutputStream fos = myContext.openFileOutput("bd.dat", myContext.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(trad);
+            os.close();
+            fos.close();
         }
         catch(Exception e){
             finestraAvis(getStackTrace(e));
         }
+    }
+
+    public void importar(){
+        try {
+            FileInputStream fis = myContext.openFileInput("bd.dat");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            trad = (Traduccio) is.readObject();
+            is.close();
+            fis.close();
+        }
+        catch(Exception e){
+            finestraAvis(getStackTrace(e));
+        }
+    }
+
+    public void inicialitzar(){
+
+        File f = new File(getFilesDir().getPath()+"/bd.dat");
+        if(f.exists() && !f.isDirectory()) {
+            importar();
+        }
+        else{
+            trad=new Traduccio();
+            try {
+                trad.inicialitzar();
+            }
+            catch(Exception e){
+                finestraAvis(getStackTrace(e));
+            }
+        }
+
     }
 
     public static String getStackTrace(final Throwable throwable) {
@@ -178,7 +149,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void onClickHelp(View view){
         String help="Aplicació per jugar amb idiomes, paraules i les seves traduccions.\n\n" +
-                "A la primera pantalla l'usuari ha de triar entre editar els idiomes i les paraules o començar a jugar. Per defecte vénen dos idiomes i unes quantes paraules.\n\n" +
+                "A la primera pantalla l'usuari ha de triar entre editar els idiomes i les paraules o començar a jugar. Per defecte vénen tres idiomes i unes quantes paraules.\n\n" +
                 "Si l'usuari tria editar, l'aplicació el portarà a una nova pantalla. En aquesta, hi ha uns desplegables per triar idiomes, paraules i traduccions. Uns botons ajuden a gestionar tota aquesta informació." +
                 "Es poden afegir i esborrar idiomes, paraules i traduccions entre paraules. A mésm es poden visualitzar totes les traduccions assignades a una paraula.\n\n" +
                 "Tornant a la pantalla principal, si l'usuari tria Jugar! l'aplicació el portarà a una nova pantalla per seleccionar el tipus de joc. Hi ha dos desplegables, l'idioma de partida és aquell del qual s'hauran de traduïr les paraules a l'altre idioma triat a l'altre desplegable. No es pot jugar amb idiomes que no tenen paraules o traduccions associades." +
@@ -196,6 +167,8 @@ public class MainActivity extends ActionBarActivity {
         String about="ABOUT\nAplicació Aprenent vocabulari v1.0"+"\n"+"Autor: Marc Ronquillo González. 2015"+"\n"+"Android 4.3.1 API 18"+"\n"+"Interacció i disseny d'interfícies";
         finestraAvis(about);
     }
+
+
 
 
 }

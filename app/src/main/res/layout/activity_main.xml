@@ -29,7 +29,8 @@
             android:textStyle="normal"
             android:clickable="true"
             android:onClick="activityEditar"
-            android:focusable="true" />
+            android:focusable="true"
+            android:layout_marginTop="50dp" />
 
     </LinearLayout>
 
@@ -96,7 +97,7 @@
             android:textSize="25dp"
             android:layout_below="@+id/layoutBotoEditar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="70dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="onClickJoc" />
@@ -107,7 +108,7 @@
         android:layout_height="50dp"
         android:id="@+id/botoAbout"
         android:layout_marginLeft="35dp"
-        android:layout_marginTop="390dp"
+        android:layout_marginTop="443dp"
         android:onClick="onClickAbout"
         android:background="@drawable/info" />
 

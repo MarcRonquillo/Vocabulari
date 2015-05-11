@@ -24,7 +24,8 @@
             android:text="Idioma"
             android:id="@+id/desplegableParaulesTitol"
             android:textColor="#ffffffff"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginTop="20dp" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -91,7 +92,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:textColor="#ffffffff"
-        android:textSize="50dp" />
+        android:textSize="50dp"
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -113,7 +115,8 @@
             android:layout_alignTop="@+id/layoutDesplegables"
             android:layout_alignEnd="@+id/textView"
             android:onClick="onClickEliminarIdioma"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:layout_marginTop="20dp" />
 
         <Button
             android:layout_width="fill_parent"
@@ -163,7 +166,8 @@
             android:layout_centerVertical="true"
             android:layout_alignStart="@+id/spinnerEsborrarTrad"
             android:textSize="17dp"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:layout_marginTop="20dp" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -197,7 +201,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="430dp">
+        android:layout_marginTop="440dp">
 
         <Button
             android:layout_width="wrap_content"

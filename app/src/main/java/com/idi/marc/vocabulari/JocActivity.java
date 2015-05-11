@@ -1,12 +1,11 @@
 package com.idi.marc.vocabulari;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
 
-public class JocActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+public class JocActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     private Intent intentPrevi;
     private Traduccio trad;
@@ -35,7 +33,6 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
     private String mode;
     private ArrayList<String> modes;
     private boolean llistaIdiomesBuida;
-    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +150,7 @@ public class JocActivity extends ActionBarActivity implements AdapterView.OnItem
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
+
     }
 
     public void onClickStart(View view){

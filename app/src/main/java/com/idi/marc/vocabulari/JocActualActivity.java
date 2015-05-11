@@ -1,11 +1,11 @@
 package com.idi.marc.vocabulari;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class JocActualActivity extends ActionBarActivity {
+public class JocActualActivity extends Activity {
 
     private Intent intentPrevi;
     private Traduccio trad;
@@ -27,7 +27,6 @@ public class JocActualActivity extends ActionBarActivity {
     private VocabulariCountDownTimer comptador;
     private String paraulaTraduida;
     private Integer numRespostes,errors,encerts;
-    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +91,6 @@ public class JocActualActivity extends ActionBarActivity {
 
     public void setTimerONo(){
         if(trad.mode.equals("30 segons")){
-            Log.i(TAG, "30 segons");
             comptador=new VocabulariCountDownTimer(startTime, interval);
             comptador.start();
         }
@@ -173,7 +171,6 @@ public class JocActualActivity extends ActionBarActivity {
         @Override
         public void onTick(long millisUntilFinished)
         {
-            Log.i(TAG, "tick"+String.valueOf(millisUntilFinished));
             millisUntilFinished=millisUntilFinished/1000;
             temps.setText(String.valueOf(millisUntilFinished));
         }
