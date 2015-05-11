@@ -83,7 +83,6 @@ public class JocActivity extends Activity implements AdapterView.OnItemSelectedL
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, trad.getIdiomesAmbParaules());
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerIdioma1.setAdapter(adaptador);
-
     }
 
     public void addListenerOnSpinnerItemSelectionIdioma1() {
@@ -135,6 +134,7 @@ public class JocActivity extends Activity implements AdapterView.OnItemSelectedL
             case R.id.spinnerIdioma1:
                 if(trad.getLlistaIdiomes().size()>=2) {
                     idioma1 = trad.getIdioma((String) parent.getItemAtPosition(pos));
+
                     setSpinnerIdioma2();
                     addListenerOnSpinnerItemSelectionIdioma2();
                 }

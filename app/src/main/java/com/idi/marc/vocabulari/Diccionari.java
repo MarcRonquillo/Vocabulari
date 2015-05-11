@@ -26,6 +26,8 @@ public class Diccionari implements Serializable {
 
     public boolean hiHaTraduccions(){
 
+        boolean dic1=false;
+
         Iterator<Map.Entry<Paraula,ArrayList<Paraula>>> it = diccionari1.entrySet().iterator();
 
         while (it.hasNext()) {
@@ -33,11 +35,13 @@ public class Diccionari implements Serializable {
             Map.Entry<Paraula,ArrayList<Paraula>> pair = it.next();
 
             if(!pair.getValue().isEmpty())
-                return true;
-            else
-                return false;
+                dic1= true;
         }
+        if(dic1)
+            return true;
+
         return false;
+
     }
 
     public void connectarParaules(Paraula par1, Paraula par2){

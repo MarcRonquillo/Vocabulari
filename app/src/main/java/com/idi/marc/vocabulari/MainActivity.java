@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,6 @@ public class MainActivity extends Activity {
 
     private Traduccio trad;
     static Context myContext;
-    private boolean iniciat=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,23 +31,27 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         myContext=this;
 
-        if(!iniciat)
-            inicialitzar();
-
-        iniciat=true;
+        inicialitzar();
 
     }
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
+    protected void onPause(){
+        super.onPause();
 
         exportar();
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        eliminarFitxer();
+    }
+
 
     public void exportar(){
-        eliminarFitxer();
         try {
+            eliminarFitxer();
             FileOutputStream fos = myContext.openFileOutput("bd.dat", myContext.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(trad);
@@ -86,13 +90,14 @@ public class MainActivity extends Activity {
             importar();
         }
         else{
-            trad=new Traduccio();
+
+            trad = new Traduccio();
             try {
                 trad.inicialitzar();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 finestraAvis(getStackTrace(e));
             }
+
         }
 
     }

@@ -254,7 +254,7 @@ public class Traduccio implements Serializable {
 
         Iterator<Entry<String, Idioma>> it = idiomes.entrySet().iterator();
         while (it.hasNext()) {
-            Entry<String,Idioma> pair = (Entry<String,Idioma>)it.next();
+            Entry<String,Idioma> pair = it.next();
             if(!pair.getValue().equals(getIdioma(idioma))) {
                 if(getDiccionari(pair.getKey(),idioma).hiHaTraduccions())
                     dicc.add(pair.getValue().getId());

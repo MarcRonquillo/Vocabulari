@@ -43,7 +43,6 @@ public class EditarActivity extends Activity implements AdapterView.OnItemSelect
     private boolean spinnerBuitElimParaula;
     private boolean spinnerBuitElimTrad;
     private boolean spinnerBuitAfegirTrad;
-    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,7 +204,6 @@ public class EditarActivity extends Activity implements AdapterView.OnItemSelect
             case R.id.spinnerIdiomes:
                 if(!trad.getLlistaIdiomes().isEmpty()) {
                     idiomaActual = trad.getIdioma((String) parent.getItemAtPosition(pos));
-                    Log.i(TAG, "idioma actual="+idiomaActual.getId());
                     setSpinnerParaula();
                     addListenerOnSpinnerSelectionParaula();
                 }
